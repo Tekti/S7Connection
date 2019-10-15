@@ -146,6 +146,7 @@ namespace S7Connection
                 //chart1.Series[tmpColumn.ColumnName].YValueMembers = tmpColumn.ColumnName;
                 //chart1.Series[tmpColumn.ColumnName].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
                 //chart1.Series[tmpColumn.ColumnName].Color = var.Color;
+                //test
                 Values_table.AcceptChanges();
             }
             
