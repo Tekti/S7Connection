@@ -30,11 +30,17 @@
         {
             this.components = new System.ComponentModel.Container();
             System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
+            System.Windows.Forms.DataVisualization.Charting.ChartArea chartArea1 = new System.Windows.Forms.DataVisualization.Charting.ChartArea();
+            System.Windows.Forms.DataVisualization.Charting.Legend legend1 = new System.Windows.Forms.DataVisualization.Charting.Legend();
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(MainWindow));
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.LogData_textbox = new System.Windows.Forms.TextBox();
+            this.LogData_button = new System.Windows.Forms.Button();
+            this.LogData_label = new System.Windows.Forms.Label();
+            this.LogData_checkbox = new System.Windows.Forms.CheckBox();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.Pause_checkBox = new System.Windows.Forms.CheckBox();
             this.buttonStop = new System.Windows.Forms.Button();
@@ -138,7 +144,7 @@
             this.label5 = new System.Windows.Forms.Label();
             this.tabHelp = new System.Windows.Forms.TabPage();
             this.tabDown = new System.Windows.Forms.TabControl();
-            this.tabChart = new System.Windows.Forms.TabPage();
+            this.ChartPage = new System.Windows.Forms.TabPage();
             this.tabTable = new System.Windows.Forms.TabPage();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.tabDir = new System.Windows.Forms.TabPage();
@@ -155,15 +161,12 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
-            this.LogData_textbox = new System.Windows.Forms.TextBox();
-            this.LogData_button = new System.Windows.Forms.Button();
-            this.LogData_label = new System.Windows.Forms.Label();
-            this.LogData_checkbox = new System.Windows.Forms.CheckBox();
             this.Chart1_contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveImageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -183,10 +186,12 @@
             this.tabInfo.SuspendLayout();
             this.groupBox4.SuspendLayout();
             this.tabDown.SuspendLayout();
+            this.ChartPage.SuspendLayout();
             this.tabTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabDir.SuspendLayout();
             this.Chart1_contextMenuStrip.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -248,6 +253,46 @@
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Log data to file";
+            // 
+            // LogData_textbox
+            // 
+            this.LogData_textbox.Location = new System.Drawing.Point(45, 44);
+            this.LogData_textbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogData_textbox.Name = "LogData_textbox";
+            this.LogData_textbox.Size = new System.Drawing.Size(166, 20);
+            this.LogData_textbox.TabIndex = 21;
+            // 
+            // LogData_button
+            // 
+            this.LogData_button.Location = new System.Drawing.Point(218, 44);
+            this.LogData_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogData_button.Name = "LogData_button";
+            this.LogData_button.Size = new System.Drawing.Size(24, 22);
+            this.LogData_button.TabIndex = 23;
+            this.LogData_button.Text = "...";
+            this.LogData_button.UseVisualStyleBackColor = true;
+            this.LogData_button.Click += new System.EventHandler(this.LogData_button_Click);
+            // 
+            // LogData_label
+            // 
+            this.LogData_label.AutoSize = true;
+            this.LogData_label.Location = new System.Drawing.Point(9, 47);
+            this.LogData_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LogData_label.Name = "LogData_label";
+            this.LogData_label.Size = new System.Drawing.Size(32, 13);
+            this.LogData_label.TabIndex = 22;
+            this.LogData_label.Text = "Path:";
+            // 
+            // LogData_checkbox
+            // 
+            this.LogData_checkbox.AutoSize = true;
+            this.LogData_checkbox.Location = new System.Drawing.Point(12, 21);
+            this.LogData_checkbox.Margin = new System.Windows.Forms.Padding(2);
+            this.LogData_checkbox.Name = "LogData_checkbox";
+            this.LogData_checkbox.Size = new System.Drawing.Size(98, 17);
+            this.LogData_checkbox.TabIndex = 20;
+            this.LogData_checkbox.Text = "Log Data to file";
+            this.LogData_checkbox.UseVisualStyleBackColor = true;
             // 
             // groupBox2
             // 
@@ -848,7 +893,6 @@
             this.SaveVars_button.TabIndex = 10;
             this.SaveVars_button.Text = "Save";
             this.SaveVars_button.UseVisualStyleBackColor = true;
-            this.SaveVars_button.Click += new System.EventHandler(this.SaveVars_button_Click);
             // 
             // Variables_list
             // 
@@ -1426,7 +1470,7 @@
             // tabDown
             // 
             this.tabDown.Alignment = System.Windows.Forms.TabAlignment.Left;
-            this.tabDown.Controls.Add(this.tabChart);
+            this.tabDown.Controls.Add(this.ChartPage);
             this.tabDown.Controls.Add(this.tabTable);
             this.tabDown.Controls.Add(this.tabDir);
             this.tabDown.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -1437,15 +1481,15 @@
             this.tabDown.Size = new System.Drawing.Size(814, 386);
             this.tabDown.TabIndex = 1;
             // 
-            // tabChart
+            // ChartPage
             // 
-            this.tabChart.Location = new System.Drawing.Point(23, 4);
-            this.tabChart.Name = "tabChart";
-            this.tabChart.Padding = new System.Windows.Forms.Padding(3);
-            this.tabChart.Size = new System.Drawing.Size(787, 378);
-            this.tabChart.TabIndex = 0;
-            this.tabChart.Text = "Chart View";
-            this.tabChart.UseVisualStyleBackColor = true;
+            this.ChartPage.Controls.Add(this.chart1);
+            this.ChartPage.Location = new System.Drawing.Point(23, 4);
+            this.ChartPage.Name = "ChartPage";
+            this.ChartPage.Size = new System.Drawing.Size(787, 378);
+            this.ChartPage.TabIndex = 3;
+            this.ChartPage.Text = "Chart view";
+            this.ChartPage.UseVisualStyleBackColor = true;
             // 
             // tabTable
             // 
@@ -1607,46 +1651,6 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
-            // LogData_textbox
-            // 
-            this.LogData_textbox.Location = new System.Drawing.Point(45, 44);
-            this.LogData_textbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.LogData_textbox.Name = "LogData_textbox";
-            this.LogData_textbox.Size = new System.Drawing.Size(166, 20);
-            this.LogData_textbox.TabIndex = 21;
-            // 
-            // LogData_button
-            // 
-            this.LogData_button.Location = new System.Drawing.Point(218, 44);
-            this.LogData_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.LogData_button.Name = "LogData_button";
-            this.LogData_button.Size = new System.Drawing.Size(24, 22);
-            this.LogData_button.TabIndex = 23;
-            this.LogData_button.Text = "...";
-            this.LogData_button.UseVisualStyleBackColor = true;
-            this.LogData_button.Click += new System.EventHandler(this.LogData_button_Click);
-            // 
-            // LogData_label
-            // 
-            this.LogData_label.AutoSize = true;
-            this.LogData_label.Location = new System.Drawing.Point(9, 47);
-            this.LogData_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
-            this.LogData_label.Name = "LogData_label";
-            this.LogData_label.Size = new System.Drawing.Size(32, 13);
-            this.LogData_label.TabIndex = 22;
-            this.LogData_label.Text = "Path:";
-            // 
-            // LogData_checkbox
-            // 
-            this.LogData_checkbox.AutoSize = true;
-            this.LogData_checkbox.Location = new System.Drawing.Point(12, 21);
-            this.LogData_checkbox.Margin = new System.Windows.Forms.Padding(2);
-            this.LogData_checkbox.Name = "LogData_checkbox";
-            this.LogData_checkbox.Size = new System.Drawing.Size(98, 17);
-            this.LogData_checkbox.TabIndex = 20;
-            this.LogData_checkbox.Text = "Log Data to file";
-            this.LogData_checkbox.UseVisualStyleBackColor = true;
-            // 
             // Chart1_contextMenuStrip
             // 
             this.Chart1_contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
@@ -1674,6 +1678,21 @@
             this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
             this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.saveImageAsToolStripMenuItem.Text = "Save Image As...";
+            // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.ContextMenuStrip = this.Chart1_contextMenuStrip;
+            this.chart1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(787, 378);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
             // 
             // MainWindow
             // 
@@ -1715,11 +1734,13 @@
             this.groupBox4.ResumeLayout(false);
             this.groupBox4.PerformLayout();
             this.tabDown.ResumeLayout(false);
+            this.ChartPage.ResumeLayout(false);
             this.tabTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabDir.ResumeLayout(false);
             this.tabDir.PerformLayout();
             this.Chart1_contextMenuStrip.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1737,7 +1758,6 @@
         private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabControl tabDown;
-        private System.Windows.Forms.TabPage tabChart;
         private System.Windows.Forms.TabPage tabTable;
         private System.Windows.Forms.Button buttonDisconnect;
         private System.Windows.Forms.Button buttonConnect;
@@ -1859,6 +1879,8 @@
         private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveImageAsToolStripMenuItem;
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.TabPage ChartPage;
+        private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
     }
 }
 

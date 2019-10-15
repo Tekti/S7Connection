@@ -31,8 +31,8 @@ namespace S7Connection
         DataTable Values_table;
         private List<S7Address> Variable_array;
 
-        //int Program_Status = 0; //0 stopped, 1, started
-        //Timer Timer1 = new Timer();
+        int Program_Status = 0; //0 stopped, 1, started
+        Timer Timer1 = new Timer();
         private int Max_Time;
         private int Refresh_Time;
 
@@ -123,7 +123,7 @@ namespace S7Connection
             DateTimeFormat = BuildDateTimeFormat();
             //Clear the tables
             Values_table.Clear();
-            //chart1.Series.Clear();
+            chart1.Series.Clear();
             //Get the values for Max Time and Refresh Rate
             maxtime_textbox_Leave(this, e);
             Refresh_text_Leave(this, e);
@@ -141,11 +141,11 @@ namespace S7Connection
                 tmpColumn.ColumnName = var.SymbolicName.Replace(",", "."); //column name doesn't handle comma :(
                 tmpColumn.DataType = System.Type.GetType("System.Double");
                 Values_table.Columns.Add(tmpColumn);
-                //chart1.Series.Add(tmpColumn.ColumnName);
-                //chart1.Series[tmpColumn.ColumnName].XValueMember = "Time";
-                //chart1.Series[tmpColumn.ColumnName].YValueMembers = tmpColumn.ColumnName;
-                //chart1.Series[tmpColumn.ColumnName].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
-                //chart1.Series[tmpColumn.ColumnName].Color = var.Color;
+                chart1.Series.Add(tmpColumn.ColumnName);
+                chart1.Series[tmpColumn.ColumnName].XValueMember = "Time";
+                chart1.Series[tmpColumn.ColumnName].YValueMembers = tmpColumn.ColumnName;
+                chart1.Series[tmpColumn.ColumnName].ChartType = System.Windows.Forms.DataVisualization.Charting.SeriesChartType.FastLine;
+                chart1.Series[tmpColumn.ColumnName].Color = var.Color;
                 Values_table.AcceptChanges();
             }
             
@@ -186,15 +186,15 @@ namespace S7Connection
             CommunicationTimer.Stop();
             CommunicationTimer.Start();
             //bind data sources
-            //chart1.DataSource = Values_table;
+            chart1.DataSource = Values_table;
             dataGridView.DataSource = Values_table;
 
-            //chart1.DataBind();
+            chart1.DataBind();
 
             Refresh_text.Enabled = false;
             Pause_checkBox.Enabled = true;
             buttonDisconnect.Enabled = false;
-            //LogData_checkbox.Enabled = false;
+            LogData_checkbox.Enabled = false;
             Remove_button.Enabled = false;
             LoadVars_button.Enabled = false;
             AddToChart_button.Enabled = false;
@@ -208,7 +208,7 @@ namespace S7Connection
             Refresh_text.Enabled = true;
 
             buttonDisconnect.Enabled = true;
-            //LogData_checkbox.Enabled = true;
+            LogData_checkbox.Enabled = true;
             Remove_button.Enabled = true;
             AddToChart_button.Enabled = true;
             LoadVars_button.Enabled = true;
@@ -325,29 +325,7 @@ namespace S7Connection
 
         private void SaveVars_button_Click(object sender, EventArgs e)
         {
-            try
-            {
-                SaveFileDialog Dialog = new SaveFileDialog();
-                Dialog.Filter = "XML File (*.xml)|*.xml";
-                if (Dialog.ShowDialog() == DialogResult.OK)
-                {
-                    //create the serialiser to create the xml
-                    XmlSerializer serialiser = new XmlSerializer(typeof(List<S7Address>));
 
-                    // Create the TextWriter for the serialiser to use
-                    TextWriter writer = new StreamWriter(Dialog.FileName);
-
-                    //write to the file
-                    serialiser.Serialize(writer, Variable_array);
-
-                    // Close the file
-                    writer.Close();
-                }
-            }
-            catch (Exception exept)
-            {
-                MessageBox.Show(exept.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
-            }
         }
 
         private void Variables_list_SelectedIndexChanged(object sender, EventArgs e)
@@ -1061,7 +1039,7 @@ namespace S7Connection
                 Values_table.AcceptChanges();
 
                 //Save data to file
-                /* zmiana
+
                 if (LogData_checkbox.Checked)
                 {
                     //Append values
@@ -1082,7 +1060,6 @@ namespace S7Connection
                
                 //refresh chart and grid view only if visible
                 tabControl1_SelectedIndexChanged(this, e);
-                 */
             }
             catch (Exception exept)
             {
@@ -1105,7 +1082,7 @@ namespace S7Connection
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            //if (tabDown.SelectedIndex == 0 && !Pause_checkBox.Checked) chart1.DataBind();
+            if (tabDown.SelectedIndex == 0 && !Pause_checkBox.Checked) chart1.DataBind();
 
             if (tabDown.SelectedIndex == 1)
             {
