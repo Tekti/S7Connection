@@ -167,7 +167,7 @@ namespace S7Connection
 
             }
             //Save data to file
-            /*
+
             if (LogData_checkbox.Checked)
             {
                 //Generate Column names (one time only)
@@ -177,7 +177,6 @@ namespace S7Connection
                 sb.AppendLine(string.Join(";", columnNames));
 
             }
-            */
 
             //Get the refresh rate for the timer
             if (int.TryParse(Refresh_text.Text, out Refresh_Time)) CommunicationTimer.Interval = Refresh_Time;
@@ -279,6 +278,75 @@ namespace S7Connection
                 //Refresh Variables list
                 RefreshVarList();
 
+            }
+        }
+
+        private void LogData_button_Click(object sender, EventArgs e)
+        {
+            SaveFileDialog Export_Dialog = new SaveFileDialog();
+            Export_Dialog.Filter = "CSV files (*csv)|*.csv";
+            Export_Dialog.ShowDialog();
+            LogData_textbox.Text = Export_Dialog.FileName;
+        }
+
+        private void LoadVars_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                OpenFileDialog Dialog = new OpenFileDialog();
+                Dialog.Filter = "XML File (*.xml)|*.xml";
+                if (Dialog.ShowDialog() == DialogResult.OK)
+                {
+                    //create the serialiser to create the xml
+                    XmlSerializer serialiser = new XmlSerializer(typeof(List<S7Address>));
+
+                    // Create the TextWriter for the serialiser to use
+                    TextReader reader = new StreamReader(Dialog.FileName);
+
+                    // Deserialize the file
+                    Variable_array = (List<S7Address>)serialiser.Deserialize(reader);
+
+                    // Close the file
+                    reader.Close();
+                }
+                Random randonGen = new Random(); //generate random color
+                foreach (S7Address var in Variable_array)
+                {
+                    var.Color = System.Drawing.Color.FromArgb(randonGen.Next(255), randonGen.Next(255),
+                    randonGen.Next(255));
+                }
+                RefreshVarList();
+            }
+            catch (Exception exept)
+            {
+                MessageBox.Show(exept.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void SaveVars_button_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog Dialog = new SaveFileDialog();
+                Dialog.Filter = "XML File (*.xml)|*.xml";
+                if (Dialog.ShowDialog() == DialogResult.OK)
+                {
+                    //create the serialiser to create the xml
+                    XmlSerializer serialiser = new XmlSerializer(typeof(List<S7Address>));
+
+                    // Create the TextWriter for the serialiser to use
+                    TextWriter writer = new StreamWriter(Dialog.FileName);
+
+                    //write to the file
+                    serialiser.Serialize(writer, Variable_array);
+
+                    // Close the file
+                    writer.Close();
+                }
+            }
+            catch (Exception exept)
+            {
+                MessageBox.Show(exept.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
             }
         }
 
@@ -1078,6 +1146,6 @@ namespace S7Connection
             }
         }
 
-
+        
     }
 }

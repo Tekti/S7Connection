@@ -155,9 +155,19 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
+            this.LogData_textbox = new System.Windows.Forms.TextBox();
+            this.LogData_button = new System.Windows.Forms.Button();
+            this.LogData_label = new System.Windows.Forms.Label();
+            this.LogData_checkbox = new System.Windows.Forms.CheckBox();
+            this.Chart1_contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveImageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabView.SuspendLayout();
@@ -176,6 +186,7 @@
             this.tabTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabDir.SuspendLayout();
+            this.Chart1_contextMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -226,10 +237,14 @@
             // 
             // groupBox3
             // 
+            this.groupBox3.Controls.Add(this.LogData_textbox);
+            this.groupBox3.Controls.Add(this.LogData_button);
+            this.groupBox3.Controls.Add(this.LogData_label);
+            this.groupBox3.Controls.Add(this.LogData_checkbox);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox3.Location = new System.Drawing.Point(433, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 108);
+            this.groupBox3.Size = new System.Drawing.Size(259, 108);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Log data to file";
@@ -821,6 +836,7 @@
             this.LoadVars_button.TabIndex = 9;
             this.LoadVars_button.Text = "Load";
             this.LoadVars_button.UseVisualStyleBackColor = true;
+            this.LoadVars_button.Click += new System.EventHandler(this.LoadVars_button_Click);
             // 
             // SaveVars_button
             // 
@@ -832,6 +848,7 @@
             this.SaveVars_button.TabIndex = 10;
             this.SaveVars_button.Text = "Save";
             this.SaveVars_button.UseVisualStyleBackColor = true;
+            this.SaveVars_button.Click += new System.EventHandler(this.SaveVars_button_Click);
             // 
             // Variables_list
             // 
@@ -1590,6 +1607,74 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
+            // LogData_textbox
+            // 
+            this.LogData_textbox.Location = new System.Drawing.Point(45, 44);
+            this.LogData_textbox.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogData_textbox.Name = "LogData_textbox";
+            this.LogData_textbox.Size = new System.Drawing.Size(166, 20);
+            this.LogData_textbox.TabIndex = 21;
+            // 
+            // LogData_button
+            // 
+            this.LogData_button.Location = new System.Drawing.Point(218, 44);
+            this.LogData_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.LogData_button.Name = "LogData_button";
+            this.LogData_button.Size = new System.Drawing.Size(24, 22);
+            this.LogData_button.TabIndex = 23;
+            this.LogData_button.Text = "...";
+            this.LogData_button.UseVisualStyleBackColor = true;
+            this.LogData_button.Click += new System.EventHandler(this.LogData_button_Click);
+            // 
+            // LogData_label
+            // 
+            this.LogData_label.AutoSize = true;
+            this.LogData_label.Location = new System.Drawing.Point(9, 47);
+            this.LogData_label.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
+            this.LogData_label.Name = "LogData_label";
+            this.LogData_label.Size = new System.Drawing.Size(32, 13);
+            this.LogData_label.TabIndex = 22;
+            this.LogData_label.Text = "Path:";
+            // 
+            // LogData_checkbox
+            // 
+            this.LogData_checkbox.AutoSize = true;
+            this.LogData_checkbox.Location = new System.Drawing.Point(12, 21);
+            this.LogData_checkbox.Margin = new System.Windows.Forms.Padding(2);
+            this.LogData_checkbox.Name = "LogData_checkbox";
+            this.LogData_checkbox.Size = new System.Drawing.Size(98, 17);
+            this.LogData_checkbox.TabIndex = 20;
+            this.LogData_checkbox.Text = "Log Data to file";
+            this.LogData_checkbox.UseVisualStyleBackColor = true;
+            // 
+            // Chart1_contextMenuStrip
+            // 
+            this.Chart1_contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.Chart1_contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem,
+            this.exportDataToolStripMenuItem,
+            this.saveImageAsToolStripMenuItem});
+            this.Chart1_contextMenuStrip.Name = "Chart1_contextMenuStrip";
+            this.Chart1_contextMenuStrip.Size = new System.Drawing.Size(160, 70);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            // 
+            // exportDataToolStripMenuItem
+            // 
+            this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
+            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.exportDataToolStripMenuItem.Text = "Export Data";
+            // 
+            // saveImageAsToolStripMenuItem
+            // 
+            this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
+            this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.saveImageAsToolStripMenuItem.Text = "Save Image As...";
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1606,6 +1691,8 @@
             this.tableLayoutPanel.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
@@ -1632,6 +1719,7 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabDir.ResumeLayout(false);
             this.tabDir.PerformLayout();
+            this.Chart1_contextMenuStrip.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -1762,6 +1850,15 @@
         private System.Windows.Forms.CheckBox Pause_checkBox;
         private System.Windows.Forms.Label CPUStatus_label;
         private System.Windows.Forms.Label CPUStatus_labelconst;
+        private System.Windows.Forms.TextBox LogData_textbox;
+        private System.Windows.Forms.Button LogData_button;
+        private System.Windows.Forms.Label LogData_label;
+        private System.Windows.Forms.CheckBox LogData_checkbox;
+        private System.Windows.Forms.ContextMenuStrip Chart1_contextMenuStrip;
+        private System.Windows.Forms.ToolStripMenuItem copyToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem exportDataToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem saveImageAsToolStripMenuItem;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
     }
 }
 
