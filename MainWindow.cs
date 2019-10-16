@@ -31,7 +31,7 @@ namespace S7Connection
         DataTable Values_table;
         private List<S7Address> Variable_array;
 
-        int Program_Status = 0; //0 stopped, 1, started
+        //int Program_Status = 0; //0 stopped, 1, started
         Timer Timer1 = new Timer();
         private int Max_Time;
         private int Refresh_Time;
@@ -128,14 +128,8 @@ namespace S7Connection
             maxtime_textbox_Leave(this, e);
             Refresh_text_Leave(this, e);
 
-
-            Reader = new S7MultiVar(Client);
-
-
             foreach (S7Address var in Variable_array)
             {
-                Reader.Add(var.Area, var.WordLen, var.DBNumber, var.Start, var.WordLen, ref BufferAB, var.BufferOffset);
-
                 ///////////////////////////////
                 tmpColumn = new DataColumn();
                 tmpColumn.ColumnName = var.SymbolicName.Replace(",", "."); //column name doesn't handle comma :(
@@ -325,7 +319,29 @@ namespace S7Connection
 
         private void SaveVars_button_Click(object sender, EventArgs e)
         {
+            try
+            {
+                SaveFileDialog Dialog = new SaveFileDialog();
+                Dialog.Filter = "XML File (*.xml)|*.xml";
+                if (Dialog.ShowDialog() == DialogResult.OK)
+                {
+                    //create the serialiser to create the xml
+                    XmlSerializer serialiser = new XmlSerializer(typeof(List<S7Address>));
 
+                    // Create the TextWriter for the serialiser to use
+                    TextWriter writer = new StreamWriter(Dialog.FileName);
+
+                    //write to the file
+                    serialiser.Serialize(writer, Variable_array);
+
+                    // Close the file
+                    writer.Close();
+                }
+            }
+            catch (Exception exept)
+            {
+                MessageBox.Show(exept.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
         }
 
         private void Variables_list_SelectedIndexChanged(object sender, EventArgs e)
@@ -377,6 +393,7 @@ namespace S7Connection
         private void buttonReadCPUInfo_Click(object sender, EventArgs e)
         {
             ReadCPUInfo();
+            ReadOrderCode();
         }
 
         private void buttonPLCStatus_Click(object sender, EventArgs e)
@@ -400,7 +417,6 @@ namespace S7Connection
             {
                 CBBlock.SelectedIndex = 1;
                 Modify_button.Enabled = false;
-
 
                 //Initialize Variable Table
                 Variable_array = new List<S7Address>();
@@ -834,10 +850,6 @@ namespace S7Connection
                 return 1;
 
             }
-
-
-
-
         }
 
         private S7Address VariableToList(string name, string address, string comment, string offset, string multiplier, Color color, int bufferOffset, string displayformat = "default")
@@ -924,6 +936,7 @@ namespace S7Connection
             return a * (x + y + z); //return time in miliseconds
 
         }
+
         private double S7CountertoDouble(int inp)
         {
             int x, y, z;
@@ -937,6 +950,13 @@ namespace S7Connection
         {
             try
             {
+                Reader = new S7MultiVar(Client);
+
+                foreach (S7Address var in Variable_array)
+                {
+                    Reader.Add(var.Area, var.WordLen, var.DBNumber, var.Start, var.WordLen, ref BufferAB, var.BufferOffset);
+                }
+
                 DataRow row = Values_table.NewRow();
                 row["Time"] = DateTime.Now.ToString(DateTimeFormat);
 
@@ -1123,6 +1143,18 @@ namespace S7Connection
             }
         }
 
-        
+        void ReadOrderCode()
+        {
+            S7Client.S7OrderCode Info = new S7Client.S7OrderCode();
+            txtOrderCode.Text = "";
+            txtVersion.Text = "";
+            int Result = Client.GetOrderCode(ref Info);
+            ShowResult(Result);
+            if (Result == 0)
+            {
+                txtOrderCode.Text = Info.Code;
+                txtVersion.Text = Info.V1.ToString() + "." + Info.V2.ToString() + "." + Info.V3.ToString();
+            }
+        }
     }
 }

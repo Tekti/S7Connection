@@ -131,6 +131,10 @@
             this.Color = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.tabInfo = new System.Windows.Forms.TabPage();
             this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.txtVersion = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.txtOrderCode = new System.Windows.Forms.TextBox();
             this.lblStatus = new System.Windows.Forms.Label();
             this.buttonPLCStatus = new System.Windows.Forms.Button();
             this.buttonReadCPUInfo = new System.Windows.Forms.Button();
@@ -145,6 +149,11 @@
             this.tabHelp = new System.Windows.Forms.TabPage();
             this.tabDown = new System.Windows.Forms.TabControl();
             this.ChartPage = new System.Windows.Forms.TabPage();
+            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
+            this.Chart1_contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.saveImageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tabTable = new System.Windows.Forms.TabPage();
             this.dataGridView = new System.Windows.Forms.DataGridView();
             this.tabDir = new System.Windows.Forms.TabPage();
@@ -161,12 +170,7 @@
             this.notifyIcon = new System.Windows.Forms.NotifyIcon(this.components);
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
-            this.Chart1_contextMenuStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.copyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.exportDataToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveImageAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.chart1 = new System.Windows.Forms.DataVisualization.Charting.Chart();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -187,11 +191,11 @@
             this.groupBox4.SuspendLayout();
             this.tabDown.SuspendLayout();
             this.ChartPage.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
+            this.Chart1_contextMenuStrip.SuspendLayout();
             this.tabTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabDir.SuspendLayout();
-            this.Chart1_contextMenuStrip.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -893,6 +897,7 @@
             this.SaveVars_button.TabIndex = 10;
             this.SaveVars_button.Text = "Save";
             this.SaveVars_button.UseVisualStyleBackColor = true;
+            this.SaveVars_button.Click += new System.EventHandler(this.SaveVars_button_Click);
             // 
             // Variables_list
             // 
@@ -1330,6 +1335,10 @@
             // 
             // groupBox4
             // 
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.txtVersion);
+            this.groupBox4.Controls.Add(this.label39);
+            this.groupBox4.Controls.Add(this.txtOrderCode);
             this.groupBox4.Controls.Add(this.lblStatus);
             this.groupBox4.Controls.Add(this.buttonPLCStatus);
             this.groupBox4.Controls.Add(this.buttonReadCPUInfo);
@@ -1344,17 +1353,53 @@
             this.groupBox4.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox4.Location = new System.Drawing.Point(3, 3);
             this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(665, 108);
+            this.groupBox4.Size = new System.Drawing.Size(801, 108);
             this.groupBox4.TabIndex = 0;
             this.groupBox4.TabStop = false;
             this.groupBox4.Text = "Unit Info";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(695, 16);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(42, 13);
+            this.label35.TabIndex = 42;
+            this.label35.Text = "Version";
+            // 
+            // txtVersion
+            // 
+            this.txtVersion.Enabled = false;
+            this.txtVersion.Location = new System.Drawing.Point(743, 13);
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.ReadOnly = true;
+            this.txtVersion.Size = new System.Drawing.Size(48, 20);
+            this.txtVersion.TabIndex = 41;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(377, 16);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(61, 13);
+            this.label39.TabIndex = 40;
+            this.label39.Text = "Order Code";
+            // 
+            // txtOrderCode
+            // 
+            this.txtOrderCode.Enabled = false;
+            this.txtOrderCode.Location = new System.Drawing.Point(499, 13);
+            this.txtOrderCode.Name = "txtOrderCode";
+            this.txtOrderCode.ReadOnly = true;
+            this.txtOrderCode.Size = new System.Drawing.Size(190, 20);
+            this.txtOrderCode.TabIndex = 39;
             // 
             // lblStatus
             // 
             this.lblStatus.AutoSize = true;
             this.lblStatus.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.lblStatus.ForeColor = System.Drawing.Color.Black;
-            this.lblStatus.Location = new System.Drawing.Point(559, 39);
+            this.lblStatus.Location = new System.Drawing.Point(695, 75);
             this.lblStatus.Name = "lblStatus";
             this.lblStatus.Size = new System.Drawing.Size(100, 23);
             this.lblStatus.TabIndex = 38;
@@ -1363,7 +1408,7 @@
             // 
             // buttonPLCStatus
             // 
-            this.buttonPLCStatus.Location = new System.Drawing.Point(502, 11);
+            this.buttonPLCStatus.Location = new System.Drawing.Point(532, 75);
             this.buttonPLCStatus.Name = "buttonPLCStatus";
             this.buttonPLCStatus.Size = new System.Drawing.Size(157, 23);
             this.buttonPLCStatus.TabIndex = 37;
@@ -1491,6 +1536,49 @@
             this.ChartPage.Text = "Chart view";
             this.ChartPage.UseVisualStyleBackColor = true;
             // 
+            // chart1
+            // 
+            chartArea1.Name = "ChartArea1";
+            this.chart1.ChartAreas.Add(chartArea1);
+            this.chart1.ContextMenuStrip = this.Chart1_contextMenuStrip;
+            this.chart1.Cursor = System.Windows.Forms.Cursors.Cross;
+            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
+            legend1.Name = "Legend1";
+            this.chart1.Legends.Add(legend1);
+            this.chart1.Location = new System.Drawing.Point(0, 0);
+            this.chart1.Name = "chart1";
+            this.chart1.Size = new System.Drawing.Size(787, 378);
+            this.chart1.TabIndex = 0;
+            this.chart1.Text = "chart1";
+            // 
+            // Chart1_contextMenuStrip
+            // 
+            this.Chart1_contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
+            this.Chart1_contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.copyToolStripMenuItem,
+            this.exportDataToolStripMenuItem,
+            this.saveImageAsToolStripMenuItem});
+            this.Chart1_contextMenuStrip.Name = "Chart1_contextMenuStrip";
+            this.Chart1_contextMenuStrip.Size = new System.Drawing.Size(160, 70);
+            // 
+            // copyToolStripMenuItem
+            // 
+            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
+            this.copyToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.copyToolStripMenuItem.Text = "Copy";
+            // 
+            // exportDataToolStripMenuItem
+            // 
+            this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
+            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.exportDataToolStripMenuItem.Text = "Export Data";
+            // 
+            // saveImageAsToolStripMenuItem
+            // 
+            this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
+            this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
+            this.saveImageAsToolStripMenuItem.Text = "Save Image As...";
+            // 
             // tabTable
             // 
             this.tabTable.Controls.Add(this.dataGridView);
@@ -1538,7 +1626,7 @@
             // 
             // buttonGetDB
             // 
-            this.buttonGetDB.Location = new System.Drawing.Point(10, 169);
+            this.buttonGetDB.Location = new System.Drawing.Point(10, 110);
             this.buttonGetDB.Name = "buttonGetDB";
             this.buttonGetDB.Size = new System.Drawing.Size(100, 23);
             this.buttonGetDB.TabIndex = 82;
@@ -1551,7 +1639,7 @@
             this.txtDBGet.BackColor = System.Drawing.Color.White;
             this.txtDBGet.Font = new System.Drawing.Font("Courier New", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtDBGet.ForeColor = System.Drawing.Color.Black;
-            this.txtDBGet.Location = new System.Drawing.Point(10, 205);
+            this.txtDBGet.Location = new System.Drawing.Point(10, 139);
             this.txtDBGet.Multiline = true;
             this.txtDBGet.Name = "txtDBGet";
             this.txtDBGet.ReadOnly = true;
@@ -1599,7 +1687,7 @@
             this.txtBI.Name = "txtBI";
             this.txtBI.ReadOnly = true;
             this.txtBI.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtBI.Size = new System.Drawing.Size(436, 163);
+            this.txtBI.Size = new System.Drawing.Size(436, 104);
             this.txtBI.TabIndex = 77;
             // 
             // txtBlockNum
@@ -1651,49 +1739,6 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
-            // Chart1_contextMenuStrip
-            // 
-            this.Chart1_contextMenuStrip.ImageScalingSize = new System.Drawing.Size(20, 20);
-            this.Chart1_contextMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.copyToolStripMenuItem,
-            this.exportDataToolStripMenuItem,
-            this.saveImageAsToolStripMenuItem});
-            this.Chart1_contextMenuStrip.Name = "Chart1_contextMenuStrip";
-            this.Chart1_contextMenuStrip.Size = new System.Drawing.Size(160, 70);
-            // 
-            // copyToolStripMenuItem
-            // 
-            this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
-            this.copyToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.copyToolStripMenuItem.Text = "Copy";
-            // 
-            // exportDataToolStripMenuItem
-            // 
-            this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
-            this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.exportDataToolStripMenuItem.Text = "Export Data";
-            // 
-            // saveImageAsToolStripMenuItem
-            // 
-            this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
-            this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
-            this.saveImageAsToolStripMenuItem.Text = "Save Image As...";
-            // 
-            // chart1
-            // 
-            chartArea1.Name = "ChartArea1";
-            this.chart1.ChartAreas.Add(chartArea1);
-            this.chart1.ContextMenuStrip = this.Chart1_contextMenuStrip;
-            this.chart1.Cursor = System.Windows.Forms.Cursors.Cross;
-            this.chart1.Dock = System.Windows.Forms.DockStyle.Fill;
-            legend1.Name = "Legend1";
-            this.chart1.Legends.Add(legend1);
-            this.chart1.Location = new System.Drawing.Point(0, 0);
-            this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(787, 378);
-            this.chart1.TabIndex = 0;
-            this.chart1.Text = "chart1";
-            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1735,12 +1780,12 @@
             this.groupBox4.PerformLayout();
             this.tabDown.ResumeLayout(false);
             this.ChartPage.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
+            this.Chart1_contextMenuStrip.ResumeLayout(false);
             this.tabTable.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabDir.ResumeLayout(false);
             this.tabDir.PerformLayout();
-            this.Chart1_contextMenuStrip.ResumeLayout(false);
-            ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -1881,6 +1926,10 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TabPage ChartPage;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Label label35;
+        internal System.Windows.Forms.TextBox txtVersion;
+        private System.Windows.Forms.Label label39;
+        internal System.Windows.Forms.TextBox txtOrderCode;
     }
 }
 
