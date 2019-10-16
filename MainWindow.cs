@@ -215,7 +215,7 @@ namespace S7Connection
         {
             S7Address InputAddress = new S7Address();
             InputAddress = VariableToList(SymbolicName_text.Text, Variable_text.Text, Comment_textBox.Text, Add_text.Text,
-            Multiply_text.Text, Color_button.BackColor, GetFreeBufferAddress());
+            Multiply_text.Text, Color_button.BackColor, GetFreeBufferAddress(), DisplayFormat_comboBox.GetItemText(DisplayFormat_comboBox.SelectedItem));
             if (isDuplicate(InputAddress))
             {
                 MessageBox.Show("Symbolic Name: " + InputAddress.SymbolicName + " already exists", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -288,6 +288,7 @@ namespace S7Connection
             try
             {
                 OpenFileDialog Dialog = new OpenFileDialog();
+                //Dialog.InitialDirectory = "C:\\Users\\Default\\Documents";
                 Dialog.Filter = "XML File (*.xml)|*.xml";
                 if (Dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -322,6 +323,7 @@ namespace S7Connection
             try
             {
                 SaveFileDialog Dialog = new SaveFileDialog();
+                //Dialog.InitialDirectory = "C:\\Users\\Default\\Documents";
                 Dialog.Filter = "XML File (*.xml)|*.xml";
                 if (Dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -420,6 +422,32 @@ namespace S7Connection
 
                 //Initialize Variable Table
                 Variable_array = new List<S7Address>();
+
+                OpenFileDialog Dialog = new OpenFileDialog();
+                //Dialog.InitialDirectory = "C:\\Users\\Default\\Documents";
+                Dialog.Filter = "XML File (*.xml)|*.xml";
+                if (Dialog.ShowDialog() == DialogResult.OK)
+                {
+                    //create the serialiser to create the xml
+                    XmlSerializer serialiser = new XmlSerializer(typeof(List<S7Address>));
+
+                    // Create the TextWriter for the serialiser to use
+                    TextReader reader = new StreamReader(Dialog.FileName);
+
+                    // Deserialize the file
+                    Variable_array = (List<S7Address>)serialiser.Deserialize(reader);
+
+                    // Close the file
+                    reader.Close();
+                }
+                Random randonGen = new Random(); //generate random color
+                foreach (S7Address var in Variable_array)
+                {
+                    var.Color = System.Drawing.Color.FromArgb(randonGen.Next(255), randonGen.Next(255),
+                    randonGen.Next(255));
+                }
+                RefreshVarList();
+
             }
             catch (Exception ex)
             {
@@ -1098,6 +1126,8 @@ namespace S7Connection
             GeneralTooltip.SetToolTip(SymbolicName_text, "Name used for variable display in chart and table");
             GeneralTooltip.SetToolTip(Add_text, "Raw value is increased by this value.\n Can be used to move a variable verticaly on chart");
             GeneralTooltip.SetToolTip(Multiply_text, "Raw value is multiplied by this value.");
+            GeneralTooltip.SetToolTip(Variables_list, "Maximum variables in single list = " + S7Client.MaxVars.ToString());
+
         }
 
         private void tabControl1_SelectedIndexChanged(object sender, EventArgs e)

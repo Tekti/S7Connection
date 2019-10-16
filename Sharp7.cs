@@ -1538,7 +1538,7 @@ namespace Sharp7
         public const byte BlockLangGRAPH = 0x06;
 
         // Max number of vars (multiread/write)
-        public static readonly int MaxVars = 20;
+        public static readonly int MaxVars = 32;
 
         // Result transport size
         const byte TS_ResBit = 0x03;
