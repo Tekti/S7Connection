@@ -171,6 +171,7 @@
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.dbPicker_button = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -936,6 +937,7 @@
             // 
             // groupBox7
             // 
+            this.groupBox7.Controls.Add(this.dbPicker_button);
             this.groupBox7.Controls.Add(this.DisplayFormat_comboBox);
             this.groupBox7.Controls.Add(this.Comment_textBox);
             this.groupBox7.Controls.Add(this.PLCMax_textbox);
@@ -977,10 +979,11 @@
             this.DisplayFormat_comboBox.Items.AddRange(new object[] {
             "BOOL",
             "BYTE",
-            "INT",
-            "REAL",
             "WORD",
             "DWORD",
+            "INT",
+            "DINT",
+            "REAL",
             "TIMER1MS",
             "TIMER1S",
             "COUNTER"});
@@ -1190,6 +1193,7 @@
             this.More_button.TabIndex = 16;
             this.More_button.Text = "...";
             this.More_button.UseVisualStyleBackColor = true;
+            this.More_button.Click += new System.EventHandler(this.More_button_Click);
             // 
             // SymbolicName_label
             // 
@@ -1739,6 +1743,17 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
+            // dbPicker_button
+            // 
+            this.dbPicker_button.Location = new System.Drawing.Point(482, 67);
+            this.dbPicker_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dbPicker_button.Name = "dbPicker_button";
+            this.dbPicker_button.Size = new System.Drawing.Size(60, 21);
+            this.dbPicker_button.TabIndex = 45;
+            this.dbPicker_button.Text = "DB pick";
+            this.dbPicker_button.UseVisualStyleBackColor = true;
+            this.dbPicker_button.Click += new System.EventHandler(this.dbPicker_button_Click);
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1748,7 +1763,7 @@
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
-            this.Text = "S7 connection - PTPL";
+            this.Text = "S7 connection - PTPL, V.1.1.0";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tableLayoutPanel.ResumeLayout(false);
@@ -1930,6 +1945,7 @@
         internal System.Windows.Forms.TextBox txtVersion;
         private System.Windows.Forms.Label label39;
         internal System.Windows.Forms.TextBox txtOrderCode;
+        private System.Windows.Forms.Button dbPicker_button;
     }
 }
 

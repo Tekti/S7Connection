@@ -1,22 +1,23 @@
 ﻿using System;
 using System.Net;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 using Sharp7;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml.Serialization;
 
+using DotNetSiemensPLCToolBoxLibrary.Projectfiles;
+
 namespace S7Connection
 {
     public partial class MainWindow : Form
     {
+
         //Declare variables 
         private S7Client Client;
         private byte[] BufferAB = new byte[65536];
@@ -24,6 +25,8 @@ namespace S7Connection
         DataTable snapshot;
         private char[] numbers = new char[10];
         private long ElapsedTime;
+        SymbolsPick SymbolsPick = new SymbolsPick();
+        DBpicker DBpicker = new DBpicker();
 
         StringBuilder sb = new StringBuilder();
         string DateTimeFormat;
@@ -54,6 +57,8 @@ namespace S7Connection
             else
                 this.Text = this.Text + " - Running 64 bit Code";
         }
+
+        private Step7ProjectV5 tmp;
 
         private void buttonConnect_Click(object sender, EventArgs e)
         {
@@ -105,7 +110,7 @@ namespace S7Connection
                     buttonDisconnect.Enabled = false;
                     buttonConnect.Enabled = true;
                 }
-                
+
             }
             catch (Exception ex)
             {
@@ -142,7 +147,7 @@ namespace S7Connection
                 chart1.Series[tmpColumn.ColumnName].Color = var.Color;
                 Values_table.AcceptChanges();
             }
-            
+
 
 
             // if max time is set then fill the table with blank values 
@@ -311,6 +316,9 @@ namespace S7Connection
                     randonGen.Next(255));
                 }
                 RefreshVarList();
+
+                Properties.Settings.Default.VariablesList = Dialog.FileName;
+                Properties.Settings.Default.Save();
             }
             catch (Exception exept)
             {
@@ -339,6 +347,9 @@ namespace S7Connection
                     // Close the file
                     writer.Close();
                 }
+
+                Properties.Settings.Default.VariablesList = Dialog.FileName;
+                Properties.Settings.Default.Save();
             }
             catch (Exception exept)
             {
@@ -424,7 +435,8 @@ namespace S7Connection
                 Variable_array = new List<S7Address>();
 
                 OpenFileDialog Dialog = new OpenFileDialog();
-                //Dialog.InitialDirectory = "C:\\Users\\Default\\Documents";
+
+                Dialog.FileName = Properties.Settings.Default.VariablesList;
                 Dialog.Filter = "XML File (*.xml)|*.xml";
                 if (Dialog.ShowDialog() == DialogResult.OK)
                 {
@@ -448,6 +460,19 @@ namespace S7Connection
                 }
                 RefreshVarList();
 
+                Properties.Settings.Default.VariablesList = Dialog.FileName;
+                Properties.Settings.Default.Save();
+
+                textBoxIP.Text = Properties.Settings.Default.IPAddress;
+                textBoxRack.Text = Properties.Settings.Default.Rack;
+                textBoxSlot.Text = Properties.Settings.Default.Slot;
+                LogData_textbox.Text = Properties.Settings.Default.LogPath;
+                maxtime_textbox.Text = Properties.Settings.Default.MaxTime;
+                Refresh_text.Text = Properties.Settings.Default.RefreshRate;
+                Year_checkbox.Checked = Properties.Settings.Default.Year;
+                Month_checkBox.Checked = Properties.Settings.Default.Month;
+                Day_checkbox.Checked = Properties.Settings.Default.Day;
+
             }
             catch (Exception ex)
             {
@@ -460,6 +485,16 @@ namespace S7Connection
             try
             {
                 Client.Disconnect();
+                Properties.Settings.Default.IPAddress = textBoxIP.Text;
+                Properties.Settings.Default.Rack = textBoxRack.Text;
+                Properties.Settings.Default.Slot = textBoxSlot.Text;
+                Properties.Settings.Default.LogPath = LogData_textbox.Text;
+                Properties.Settings.Default.MaxTime = maxtime_textbox.Text;
+                Properties.Settings.Default.RefreshRate = Refresh_text.Text;
+                Properties.Settings.Default.Year = Year_checkbox.Checked;
+                Properties.Settings.Default.Month = Month_checkBox.Checked;
+                Properties.Settings.Default.Day = Day_checkbox.Checked;
+                Properties.Settings.Default.Save();
             }
             catch (Exception ex)
             {
@@ -918,7 +953,7 @@ namespace S7Connection
                     || displayformat == "TIMER1S")) InputAddress.DisplayFormat = displayformat;
                 else if (InputAddress.WordLen == S7Consts.S7WLCounter &&
                      displayformat == "COUNTER") InputAddress.DisplayFormat = displayformat;
-                else if (displayformat == "default") ;//do nothing
+                //else if (displayformat == "default") ;//do nothing
                 else
                 {
                     MessageBox.Show("Wrong Display Format", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
@@ -1105,7 +1140,7 @@ namespace S7Connection
                         LogData_checkbox.Checked = false;
                     }
                 }
-               
+
                 //refresh chart and grid view only if visible
                 tabControl1_SelectedIndexChanged(this, e);
             }
@@ -1173,7 +1208,7 @@ namespace S7Connection
             }
         }
 
-        void ReadOrderCode()
+        private void ReadOrderCode()
         {
             S7Client.S7OrderCode Info = new S7Client.S7OrderCode();
             txtOrderCode.Text = "";
@@ -1185,6 +1220,49 @@ namespace S7Connection
                 txtOrderCode.Text = Info.Code;
                 txtVersion.Text = Info.V1.ToString() + "." + Info.V2.ToString() + "." + Info.V3.ToString();
             }
+        }
+
+        private void More_button_Click(object sender, EventArgs e)
+        {
+            SymbolsPick.ShowDialog();
+            S7Address variable;
+            if (SymbolsPick.SymboleList != null)
+            {
+
+                Random randonGen = new Random();
+
+                foreach (DataGridViewRow row in SymbolsPick.SymboleList)
+                {
+                    //generate random colour
+                    Color randomColor = System.Drawing.Color.FromArgb(randonGen.Next(255), randonGen.Next(255),
+                    randonGen.Next(255));
+                    variable = VariableToList(row.Cells["Symbol"].Value.ToString(), row.Cells["Address"].Value.ToString(),
+                        row.Cells["Comment"].Value.ToString(), "", "", randomColor, GetFreeBufferAddress());
+                    if (variable.DBNumber >= 0) Variable_array.Add(variable);
+                }
+            }
+            RefreshVarList();
+        }
+
+        private void dbPicker_button_Click(object sender, EventArgs e)
+        {
+            DBpicker.ShowDialog();
+            S7Address variable;
+            if (DBpicker.DBList != null)
+            {
+                Random randonGen = new Random();
+
+                foreach (DataGridViewRow row in DBpicker.DBList)
+                {
+                    //generate random colour
+                    Color randomColor = System.Drawing.Color.FromArgb(randonGen.Next(255), randonGen.Next(255),
+                    randonGen.Next(255));
+                    variable = VariableToList(row.Cells["Symbol"].Value.ToString(), row.Cells["Address"].Value.ToString(),
+                        row.Cells["Comment"].Value.ToString(), "", "", randomColor, GetFreeBufferAddress(), row.Cells[2].Value.ToString());
+                    if (variable.DBNumber >= 0) Variable_array.Add(variable);
+                }
+            }
+            RefreshVarList();
         }
     }
 }
