@@ -10,14 +10,12 @@ using Sharp7;
 using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml.Serialization;
-
-using DotNetSiemensPLCToolBoxLibrary.Projectfiles;
+using System.Windows.Forms.DataVisualization.Charting;
 
 namespace S7Connection
 {
     public partial class MainWindow : Form
     {
-
         //Declare variables 
         private S7Client Client;
         private byte[] BufferAB = new byte[65536];
@@ -51,15 +49,13 @@ namespace S7Connection
         public MainWindow()
         {
             InitializeComponent();
+            this.chart1.MouseWheel += new MouseEventHandler(chart1_MouseWheel);
             Client = new S7Client();
             if (IntPtr.Size == 4)
                 this.Text = this.Text + " - Running 32 bit Code";
             else
                 this.Text = this.Text + " - Running 64 bit Code";
         }
-
-        private Step7ProjectV5 tmp;
-
         private void buttonConnect_Click(object sender, EventArgs e)
         {
             try
@@ -85,6 +81,8 @@ namespace S7Connection
                     textBoxSlot.Enabled = false;
                     buttonConnect.Enabled = false;
                     buttonDisconnect.Enabled = true;
+                    buttonStop.Enabled = false;
+                    buttonStart.Enabled = true;
                 }
 
             }
@@ -173,8 +171,7 @@ namespace S7Connection
 
                 IEnumerable<string> columnNames = Values_table.Columns.Cast<DataColumn>().
                                   Select(column => column.ColumnName);
-                sb.AppendLine(string.Join(";", columnNames));
-
+                sb.AppendLine(string.Join(Convert.ToChar(9).ToString(), columnNames));
             }
 
             //Get the refresh rate for the timer
@@ -198,6 +195,8 @@ namespace S7Connection
             LoadVars_button.Enabled = false;
             AddToChart_button.Enabled = false;
             Modify_button.Enabled = false;
+            buttonStart.Enabled = false;
+            buttonStop.Enabled = true;
         }
 
         private void buttonStop_Click(object sender, EventArgs e)
@@ -214,6 +213,150 @@ namespace S7Connection
             Modify_button.Enabled = true;
             Pause_checkBox.Enabled = true;
             Refresh_text.Enabled = true;
+            buttonStop.Enabled = false;
+            buttonStart.Enabled = true;
+        }
+
+        private void chart1_MouseWheel(object sender, MouseEventArgs e)
+        {
+            try
+            {
+                if (e.Delta < 0)
+                {
+                    chart1.ChartAreas[0].AxisX.ScaleView.ZoomReset();
+                    chart1.ChartAreas[0].AxisY.ScaleView.ZoomReset();
+                }
+
+                if (e.Delta > 0)
+                {
+                    double xMin = chart1.ChartAreas[0].AxisX.ScaleView.ViewMinimum;
+                    double xMax = chart1.ChartAreas[0].AxisX.ScaleView.ViewMaximum;
+                    double yMin = chart1.ChartAreas[0].AxisY.ScaleView.ViewMinimum;
+                    double yMax = chart1.ChartAreas[0].AxisY.ScaleView.ViewMaximum;
+
+                    double posXStart = chart1.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) - (xMax - xMin) / 2;
+                    double posXFinish = chart1.ChartAreas[0].AxisX.PixelPositionToValue(e.Location.X) + (xMax - xMin) / 2;
+                    double posYStart = chart1.ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y) - (yMax - yMin) / 2;
+                    double posYFinish = chart1.ChartAreas[0].AxisY.PixelPositionToValue(e.Location.Y) + (yMax - yMin) / 2;
+
+                    chart1.ChartAreas[0].AxisX.ScaleView.Zoom(posXStart, posXFinish);
+                    chart1.ChartAreas[0].AxisY.ScaleView.Zoom(posYStart, posYFinish);
+                }
+            }
+            catch { }
+        }
+
+        private void chart1_MouseLeave(object sender, EventArgs e)
+        {
+            if (chart1.Focused)
+                chart1.Parent.Focus();
+        }
+
+        private void chart1_MouseEnter(object sender, EventArgs e)
+        {
+            if (!chart1.Focused)
+                chart1.Focus();
+        }
+
+        Point? prevPosition = null;
+        ToolTip tooltip = new ToolTip();
+
+        private void chart1_MouseMove(object sender, MouseEventArgs e)
+        {
+            var pos = e.Location;
+            if (prevPosition.HasValue && pos == prevPosition.Value)
+                return;
+            tooltip.RemoveAll();
+            prevPosition = pos;
+            var results = chart1.HitTest(pos.X, pos.Y, false,
+                                            ChartElementType.DataPoint);
+            foreach (var result in results)
+            {
+                if (result.ChartElementType == ChartElementType.DataPoint)
+                {
+                    var prop = result.Object as DataPoint;
+                    if (prop != null)
+                    {
+                        var pointXPixel = result.ChartArea.AxisX.ValueToPixelPosition(prop.XValue);
+                        var pointYPixel = result.ChartArea.AxisY.ValueToPixelPosition(prop.YValues[0]);
+                        tooltip.Show("X=" + prop.AxisLabel + ", Y=" + prop.YValues[0], this.chart1, pos.X, pos.Y - 15);
+                    }
+                }
+            }
+
+
+        }
+
+        private void MaxVal_textbox_MouseLeave(object sender, EventArgs e)
+        {
+            double MaxSenVal = 0, MinSenVal = 0, MaxPLCVal = 0, MinPLCVal = 1, result = 0;
+            if (double.TryParse(MaxVal_textbox.Text, out result))
+            {
+                MaxSenVal = result;
+            }
+            if (double.TryParse(MinVal_textbox.Text, out result))
+            {
+                MinSenVal = result;
+            }
+            if (double.TryParse(PLCMax_textbox.Text, out result))
+            {
+                MaxPLCVal = result;
+            }
+            if (double.TryParse(PLCMin_textbox.Text, out result))
+            {
+                MinPLCVal = result;
+            }
+            double offset = 0;
+            double multiplicator = 1;
+            offset = MinSenVal - multiplicator * MinPLCVal;
+            multiplicator = (MaxSenVal - offset) / MaxPLCVal;
+            Multiply_text.Text = multiplicator.ToString();
+            Add_text.Text = offset.ToString();
+        }
+
+        private void copyToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                System.IO.MemoryStream ms = new System.IO.MemoryStream();
+                chart1.SaveImage(ms, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Bmp);
+                Bitmap Chart_Image = new Bitmap(ms);
+                Clipboard.SetImage(Chart_Image);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void saveImageAsToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog Image_Dialog = new SaveFileDialog();
+                Image_Dialog.Filter = "Image files (*.bmp)|*.bmp";
+                Image_Dialog.ShowDialog();
+                chart1.SaveImage(Image_Dialog.FileName, System.Windows.Forms.DataVisualization.Charting.ChartImageFormat.Bmp);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
+        }
+
+        private void exportDataToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                SaveFileDialog Export_Dialog = new SaveFileDialog();
+                Export_Dialog.Filter = "Xml files (*xml)|*.xml";
+                Export_Dialog.ShowDialog();
+                Values_table.WriteXml(Export_Dialog.FileName);
+            }
+            catch (Exception ex)
+            {
+                MessageBox.Show(this, ex.Message, "Information", MessageBoxButtons.OK, MessageBoxIcon.Information);
+            }
         }
 
         private void AddToChart_button_Click(object sender, EventArgs e)
@@ -1151,7 +1294,6 @@ namespace S7Connection
             }
         }
 
-
         private void TooltipEvent(object sender, EventArgs e)
         {
             GeneralTooltip.SetToolTip(textBoxIP, "IP Address in a form xxx.xxx.xxx.xxx \n or write simulation for demo");
@@ -1263,6 +1405,73 @@ namespace S7Connection
                 }
             }
             RefreshVarList();
+        }
+
+        private void MinScale_text_TextChanged(object sender, EventArgs e)
+        {
+            double field_value;
+            if (double.TryParse(MinScale_text.Text, out field_value) && field_value < chart1.ChartAreas[0].AxisY.Maximum)
+            {
+                chart1.ChartAreas[0].AxisY.Minimum = field_value;
+            }
+            else chart1.ChartAreas[0].AxisY.Minimum = double.NaN;
+
+        }
+
+        private void Maxscale_text_TextChanged(object sender, EventArgs e)
+        {
+            double field_value;
+            if (double.TryParse(Maxscale_text.Text, out field_value) && field_value > chart1.ChartAreas[0].AxisY.Minimum)
+            {
+                chart1.ChartAreas[0].AxisY.Maximum = field_value;
+            }
+            else chart1.ChartAreas[0].AxisY.Maximum = double.NaN;
+        }
+
+        private void Legend_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.Legends[0].Enabled = Legend_checkbox.Checked;
+        }
+
+        private void Xgrid_checkBox_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisX.MajorGrid.Enabled = Xgrid_checkBox.Checked;
+        }
+        private void X_MinorGrid_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisX.MinorGrid.Enabled = X_MinorGrid_checkbox.Checked;
+        }
+
+        private void Ygrid_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisY.MajorGrid.Enabled = Ygrid_checkbox.Checked;
+        }
+        private void Y_MinorGrid_checkbox_CheckedChanged(object sender, EventArgs e)
+        {
+            chart1.ChartAreas[0].AxisY.MinorGrid.Enabled = Y_MinorGrid_checkbox.Checked;
+        }
+
+        private void Interval_text_TextChanged(object sender, EventArgs e)
+        {
+            double field_value;
+            if (double.TryParse(X_Interval_text.Text, out field_value))
+            {
+                //field_value = field_value;
+                chart1.ChartAreas[0].AxisX.MajorTickMark.Interval = field_value;
+                chart1.ChartAreas[0].AxisX.MinorTickMark.Interval = field_value / 5;
+                chart1.ChartAreas[0].AxisX.LabelStyle.Interval = field_value;
+            }
+        }
+
+        private void Y_Interval_text_TextChanged(object sender, EventArgs e)
+        {
+            double field_value;
+            if (double.TryParse(Y_Interval_text.Text, out field_value))
+            {
+                chart1.ChartAreas[0].AxisY.MajorTickMark.Interval = field_value;
+                chart1.ChartAreas[0].AxisY.MinorTickMark.Interval = field_value / 5;
+                chart1.ChartAreas[0].AxisY.LabelStyle.Interval = field_value;
+            }
         }
     }
 }

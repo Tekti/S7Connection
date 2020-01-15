@@ -96,6 +96,7 @@
             this.AddToChart_button = new System.Windows.Forms.Button();
             this.Remove_button = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.dbPicker_button = new System.Windows.Forms.Button();
             this.DisplayFormat_comboBox = new System.Windows.Forms.ComboBox();
             this.Comment_textBox = new System.Windows.Forms.TextBox();
             this.PLCMax_textbox = new System.Windows.Forms.TextBox();
@@ -171,7 +172,6 @@
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.dbPicker_button = new System.Windows.Forms.Button();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -310,13 +310,13 @@
             this.groupBox2.Size = new System.Drawing.Size(80, 108);
             this.groupBox2.TabIndex = 1;
             this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Control";
+            this.groupBox2.Text = "Data Control";
             // 
             // Pause_checkBox
             // 
             this.Pause_checkBox.Appearance = System.Windows.Forms.Appearance.Button;
             this.Pause_checkBox.Enabled = false;
-            this.Pause_checkBox.Location = new System.Drawing.Point(5, 44);
+            this.Pause_checkBox.Location = new System.Drawing.Point(5, 40);
             this.Pause_checkBox.Margin = new System.Windows.Forms.Padding(4);
             this.Pause_checkBox.Name = "Pause_checkBox";
             this.Pause_checkBox.Size = new System.Drawing.Size(70, 20);
@@ -328,7 +328,7 @@
             // 
             // buttonStop
             // 
-            this.buttonStop.Location = new System.Drawing.Point(5, 69);
+            this.buttonStop.Location = new System.Drawing.Point(5, 61);
             this.buttonStop.Name = "buttonStop";
             this.buttonStop.Size = new System.Drawing.Size(70, 20);
             this.buttonStop.TabIndex = 0;
@@ -608,6 +608,7 @@
             this.X_Interval_text.Name = "X_Interval_text";
             this.X_Interval_text.Size = new System.Drawing.Size(46, 20);
             this.X_Interval_text.TabIndex = 35;
+            this.X_Interval_text.TextChanged += new System.EventHandler(this.Interval_text_TextChanged);
             // 
             // Xgrid_checkBox
             // 
@@ -619,6 +620,7 @@
             this.Xgrid_checkBox.TabIndex = 24;
             this.Xgrid_checkBox.Text = "Major grid";
             this.Xgrid_checkBox.UseVisualStyleBackColor = true;
+            this.Xgrid_checkBox.CheckedChanged += new System.EventHandler(this.Xgrid_checkBox_CheckedChanged);
             // 
             // X_MinorGrid_checkbox
             // 
@@ -630,6 +632,7 @@
             this.X_MinorGrid_checkbox.TabIndex = 26;
             this.X_MinorGrid_checkbox.Text = "Minor grid";
             this.X_MinorGrid_checkbox.UseVisualStyleBackColor = true;
+            this.X_MinorGrid_checkbox.CheckedChanged += new System.EventHandler(this.X_MinorGrid_checkbox_CheckedChanged);
             // 
             // X_Interval_label
             // 
@@ -668,6 +671,7 @@
             this.Y_Interval_text.Name = "Y_Interval_text";
             this.Y_Interval_text.Size = new System.Drawing.Size(46, 20);
             this.Y_Interval_text.TabIndex = 39;
+            this.Y_Interval_text.TextChanged += new System.EventHandler(this.Y_Interval_text_TextChanged);
             // 
             // Maxscale_text
             // 
@@ -676,6 +680,7 @@
             this.Maxscale_text.Name = "Maxscale_text";
             this.Maxscale_text.Size = new System.Drawing.Size(46, 20);
             this.Maxscale_text.TabIndex = 29;
+            this.Maxscale_text.TextChanged += new System.EventHandler(this.Maxscale_text_TextChanged);
             // 
             // MinScale_text
             // 
@@ -684,6 +689,7 @@
             this.MinScale_text.Name = "MinScale_text";
             this.MinScale_text.Size = new System.Drawing.Size(46, 20);
             this.MinScale_text.TabIndex = 31;
+            this.MinScale_text.TextChanged += new System.EventHandler(this.MinScale_text_TextChanged);
             // 
             // Y_Interval_label
             // 
@@ -705,6 +711,7 @@
             this.Ygrid_checkbox.TabIndex = 27;
             this.Ygrid_checkbox.Text = "Major grid";
             this.Ygrid_checkbox.UseVisualStyleBackColor = true;
+            this.Ygrid_checkbox.CheckedChanged += new System.EventHandler(this.Ygrid_checkbox_CheckedChanged);
             // 
             // Y_MinorGrid_checkbox
             // 
@@ -716,6 +723,7 @@
             this.Y_MinorGrid_checkbox.TabIndex = 37;
             this.Y_MinorGrid_checkbox.Text = "Minor grid";
             this.Y_MinorGrid_checkbox.UseVisualStyleBackColor = true;
+            this.Y_MinorGrid_checkbox.CheckedChanged += new System.EventHandler(this.Y_MinorGrid_checkbox_CheckedChanged);
             // 
             // label12
             // 
@@ -806,6 +814,7 @@
             this.Legend_checkbox.TabIndex = 25;
             this.Legend_checkbox.Text = "Legend";
             this.Legend_checkbox.UseVisualStyleBackColor = true;
+            this.Legend_checkbox.CheckedChanged += new System.EventHandler(this.Legend_checkbox_CheckedChanged);
             // 
             // Refresh_label
             // 
@@ -972,6 +981,17 @@
             this.groupBox7.TabIndex = 34;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Variable Settings";
+            // 
+            // dbPicker_button
+            // 
+            this.dbPicker_button.Location = new System.Drawing.Point(482, 81);
+            this.dbPicker_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
+            this.dbPicker_button.Name = "dbPicker_button";
+            this.dbPicker_button.Size = new System.Drawing.Size(60, 21);
+            this.dbPicker_button.TabIndex = 45;
+            this.dbPicker_button.Text = "DB pick";
+            this.dbPicker_button.UseVisualStyleBackColor = true;
+            this.dbPicker_button.Click += new System.EventHandler(this.dbPicker_button_Click);
             // 
             // DisplayFormat_comboBox
             // 
@@ -1554,6 +1574,9 @@
             this.chart1.Size = new System.Drawing.Size(787, 378);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
+            this.chart1.MouseEnter += new System.EventHandler(this.chart1_MouseEnter);
+            this.chart1.MouseLeave += new System.EventHandler(this.chart1_MouseLeave);
+            this.chart1.MouseMove += new System.Windows.Forms.MouseEventHandler(this.chart1_MouseMove);
             // 
             // Chart1_contextMenuStrip
             // 
@@ -1570,18 +1593,21 @@
             this.copyToolStripMenuItem.Name = "copyToolStripMenuItem";
             this.copyToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.copyToolStripMenuItem.Text = "Copy";
+            this.copyToolStripMenuItem.Click += new System.EventHandler(this.copyToolStripMenuItem_Click);
             // 
             // exportDataToolStripMenuItem
             // 
             this.exportDataToolStripMenuItem.Name = "exportDataToolStripMenuItem";
             this.exportDataToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.exportDataToolStripMenuItem.Text = "Export Data";
+            this.exportDataToolStripMenuItem.Click += new System.EventHandler(this.exportDataToolStripMenuItem_Click);
             // 
             // saveImageAsToolStripMenuItem
             // 
             this.saveImageAsToolStripMenuItem.Name = "saveImageAsToolStripMenuItem";
             this.saveImageAsToolStripMenuItem.Size = new System.Drawing.Size(159, 22);
             this.saveImageAsToolStripMenuItem.Text = "Save Image As...";
+            this.saveImageAsToolStripMenuItem.Click += new System.EventHandler(this.saveImageAsToolStripMenuItem_Click);
             // 
             // tabTable
             // 
@@ -1742,17 +1768,6 @@
             this.InterfaceRefreshtimer.Enabled = true;
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
-            // 
-            // dbPicker_button
-            // 
-            this.dbPicker_button.Location = new System.Drawing.Point(482, 67);
-            this.dbPicker_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.dbPicker_button.Name = "dbPicker_button";
-            this.dbPicker_button.Size = new System.Drawing.Size(60, 21);
-            this.dbPicker_button.TabIndex = 45;
-            this.dbPicker_button.Text = "DB pick";
-            this.dbPicker_button.UseVisualStyleBackColor = true;
-            this.dbPicker_button.Click += new System.EventHandler(this.dbPicker_button_Click);
             // 
             // MainWindow
             // 
