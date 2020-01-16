@@ -36,15 +36,25 @@
             this.tableLayoutPanel = new System.Windows.Forms.TableLayoutPanel();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabMain = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.label35 = new System.Windows.Forms.Label();
+            this.txtVersion = new System.Windows.Forms.TextBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.txtOrderCode = new System.Windows.Forms.TextBox();
+            this.buttonReadCPUInfo = new System.Windows.Forms.Button();
+            this.txtModuleName = new System.Windows.Forms.TextBox();
+            this.txtAsName = new System.Windows.Forms.TextBox();
+            this.txtSerialNumber = new System.Windows.Forms.TextBox();
+            this.txtModuleTypeName = new System.Windows.Forms.TextBox();
+            this.label8 = new System.Windows.Forms.Label();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.LogData_textbox = new System.Windows.Forms.TextBox();
             this.LogData_button = new System.Windows.Forms.Button();
             this.LogData_label = new System.Windows.Forms.Label();
             this.LogData_checkbox = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
-            this.Pause_checkBox = new System.Windows.Forms.CheckBox();
-            this.buttonStop = new System.Windows.Forms.Button();
-            this.buttonStart = new System.Windows.Forms.Button();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
             this.CPUStatus_label = new System.Windows.Forms.Label();
             this.CPUStatus_labelconst = new System.Windows.Forms.Label();
@@ -89,6 +99,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.ms_text = new System.Windows.Forms.Label();
             this.tabVariables = new System.Windows.Forms.TabPage();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.Pause_checkBox = new System.Windows.Forms.CheckBox();
+            this.buttonStop = new System.Windows.Forms.Button();
+            this.buttonStart = new System.Windows.Forms.Button();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.LoadVars_button = new System.Windows.Forms.Button();
             this.SaveVars_button = new System.Windows.Forms.Button();
@@ -130,23 +144,6 @@
             this.Format = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.StatusValue = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.Color = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.tabInfo = new System.Windows.Forms.TabPage();
-            this.groupBox4 = new System.Windows.Forms.GroupBox();
-            this.label35 = new System.Windows.Forms.Label();
-            this.txtVersion = new System.Windows.Forms.TextBox();
-            this.label39 = new System.Windows.Forms.Label();
-            this.txtOrderCode = new System.Windows.Forms.TextBox();
-            this.lblStatus = new System.Windows.Forms.Label();
-            this.buttonPLCStatus = new System.Windows.Forms.Button();
-            this.buttonReadCPUInfo = new System.Windows.Forms.Button();
-            this.txtModuleName = new System.Windows.Forms.TextBox();
-            this.txtAsName = new System.Windows.Forms.TextBox();
-            this.txtSerialNumber = new System.Windows.Forms.TextBox();
-            this.txtModuleTypeName = new System.Windows.Forms.TextBox();
-            this.label8 = new System.Windows.Forms.Label();
-            this.label7 = new System.Windows.Forms.Label();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
             this.tabHelp = new System.Windows.Forms.TabPage();
             this.tabDown = new System.Windows.Forms.TabControl();
             this.ChartPage = new System.Windows.Forms.TabPage();
@@ -172,11 +169,12 @@
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.CPU_STATUS = new System.Windows.Forms.Label();
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
+            this.groupBox4.SuspendLayout();
             this.groupBox3.SuspendLayout();
-            this.groupBox2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.tabView.SuspendLayout();
             this.groupBox11.SuspendLayout();
@@ -184,12 +182,11 @@
             this.groupBox9.SuspendLayout();
             this.groupBox5.SuspendLayout();
             this.tabVariables.SuspendLayout();
+            this.groupBox2.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.groupBox7.SuspendLayout();
             this.tabActual.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.Variables_dataGridView)).BeginInit();
-            this.tabInfo.SuspendLayout();
-            this.groupBox4.SuspendLayout();
             this.tabDown.SuspendLayout();
             this.ChartPage.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).BeginInit();
@@ -210,10 +207,10 @@
             this.tableLayoutPanel.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel.Name = "tableLayoutPanel";
             this.tableLayoutPanel.RowCount = 3;
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 25F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 70F));
-            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 5F));
-            this.tableLayoutPanel.Size = new System.Drawing.Size(820, 561);
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 220F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 25F));
+            this.tableLayoutPanel.Size = new System.Drawing.Size(1080, 857);
             this.tableLayoutPanel.TabIndex = 0;
             // 
             // tabControl
@@ -222,28 +219,168 @@
             this.tabControl.Controls.Add(this.tabView);
             this.tabControl.Controls.Add(this.tabVariables);
             this.tabControl.Controls.Add(this.tabActual);
-            this.tabControl.Controls.Add(this.tabInfo);
             this.tabControl.Controls.Add(this.tabHelp);
             this.tabControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabControl.Location = new System.Drawing.Point(0, 0);
             this.tabControl.Margin = new System.Windows.Forms.Padding(0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(820, 140);
+            this.tabControl.Size = new System.Drawing.Size(1080, 220);
             this.tabControl.TabIndex = 0;
             // 
             // tabMain
             // 
+            this.tabMain.Controls.Add(this.groupBox4);
             this.tabMain.Controls.Add(this.groupBox3);
-            this.tabMain.Controls.Add(this.groupBox2);
             this.tabMain.Controls.Add(this.groupBox1);
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
-            this.tabMain.Size = new System.Drawing.Size(812, 114);
+            this.tabMain.Size = new System.Drawing.Size(1072, 194);
             this.tabMain.TabIndex = 0;
             this.tabMain.Text = "Main";
             this.tabMain.UseVisualStyleBackColor = true;
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Controls.Add(this.label35);
+            this.groupBox4.Controls.Add(this.txtVersion);
+            this.groupBox4.Controls.Add(this.label39);
+            this.groupBox4.Controls.Add(this.txtOrderCode);
+            this.groupBox4.Controls.Add(this.buttonReadCPUInfo);
+            this.groupBox4.Controls.Add(this.txtModuleName);
+            this.groupBox4.Controls.Add(this.txtAsName);
+            this.groupBox4.Controls.Add(this.txtSerialNumber);
+            this.groupBox4.Controls.Add(this.txtModuleTypeName);
+            this.groupBox4.Controls.Add(this.label8);
+            this.groupBox4.Controls.Add(this.label7);
+            this.groupBox4.Controls.Add(this.label6);
+            this.groupBox4.Controls.Add(this.label5);
+            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox4.Location = new System.Drawing.Point(512, 3);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(313, 188);
+            this.groupBox4.TabIndex = 3;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Unit Info";
+            // 
+            // label35
+            // 
+            this.label35.AutoSize = true;
+            this.label35.Location = new System.Drawing.Point(6, 131);
+            this.label35.Name = "label35";
+            this.label35.Size = new System.Drawing.Size(42, 13);
+            this.label35.TabIndex = 42;
+            this.label35.Text = "Version";
+            // 
+            // txtVersion
+            // 
+            this.txtVersion.Enabled = false;
+            this.txtVersion.Location = new System.Drawing.Point(112, 128);
+            this.txtVersion.Name = "txtVersion";
+            this.txtVersion.ReadOnly = true;
+            this.txtVersion.Size = new System.Drawing.Size(48, 20);
+            this.txtVersion.TabIndex = 41;
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(6, 108);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(61, 13);
+            this.label39.TabIndex = 40;
+            this.label39.Text = "Order Code";
+            // 
+            // txtOrderCode
+            // 
+            this.txtOrderCode.Enabled = false;
+            this.txtOrderCode.Location = new System.Drawing.Point(112, 105);
+            this.txtOrderCode.Name = "txtOrderCode";
+            this.txtOrderCode.ReadOnly = true;
+            this.txtOrderCode.Size = new System.Drawing.Size(190, 20);
+            this.txtOrderCode.TabIndex = 39;
+            // 
+            // buttonReadCPUInfo
+            // 
+            this.buttonReadCPUInfo.Location = new System.Drawing.Point(112, 159);
+            this.buttonReadCPUInfo.Name = "buttonReadCPUInfo";
+            this.buttonReadCPUInfo.Size = new System.Drawing.Size(75, 23);
+            this.buttonReadCPUInfo.TabIndex = 1;
+            this.buttonReadCPUInfo.Text = "Read";
+            this.buttonReadCPUInfo.UseVisualStyleBackColor = true;
+            this.buttonReadCPUInfo.Click += new System.EventHandler(this.buttonReadCPUInfo_Click);
+            // 
+            // txtModuleName
+            // 
+            this.txtModuleName.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtModuleName.Enabled = false;
+            this.txtModuleName.Location = new System.Drawing.Point(112, 82);
+            this.txtModuleName.Name = "txtModuleName";
+            this.txtModuleName.Size = new System.Drawing.Size(190, 20);
+            this.txtModuleName.TabIndex = 1;
+            // 
+            // txtAsName
+            // 
+            this.txtAsName.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtAsName.Enabled = false;
+            this.txtAsName.Location = new System.Drawing.Point(112, 59);
+            this.txtAsName.Name = "txtAsName";
+            this.txtAsName.Size = new System.Drawing.Size(190, 20);
+            this.txtAsName.TabIndex = 1;
+            // 
+            // txtSerialNumber
+            // 
+            this.txtSerialNumber.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtSerialNumber.Enabled = false;
+            this.txtSerialNumber.Location = new System.Drawing.Point(112, 36);
+            this.txtSerialNumber.Name = "txtSerialNumber";
+            this.txtSerialNumber.Size = new System.Drawing.Size(190, 20);
+            this.txtSerialNumber.TabIndex = 1;
+            // 
+            // txtModuleTypeName
+            // 
+            this.txtModuleTypeName.BackColor = System.Drawing.SystemColors.Menu;
+            this.txtModuleTypeName.Enabled = false;
+            this.txtModuleTypeName.Location = new System.Drawing.Point(112, 13);
+            this.txtModuleTypeName.Name = "txtModuleTypeName";
+            this.txtModuleTypeName.Size = new System.Drawing.Size(190, 20);
+            this.txtModuleTypeName.TabIndex = 1;
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(6, 85);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(71, 13);
+            this.label8.TabIndex = 0;
+            this.label8.Text = "Module name";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(6, 62);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(50, 13);
+            this.label7.TabIndex = 0;
+            this.label7.Text = "AS name";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(6, 39);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(71, 13);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Serial number";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(6, 16);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(100, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Module Type Name";
             // 
             // groupBox3
             // 
@@ -252,9 +389,9 @@
             this.groupBox3.Controls.Add(this.LogData_label);
             this.groupBox3.Controls.Add(this.LogData_checkbox);
             this.groupBox3.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox3.Location = new System.Drawing.Point(433, 3);
+            this.groupBox3.Location = new System.Drawing.Point(253, 3);
             this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(259, 108);
+            this.groupBox3.Size = new System.Drawing.Size(259, 188);
             this.groupBox3.TabIndex = 2;
             this.groupBox3.TabStop = false;
             this.groupBox3.Text = "Log data to file";
@@ -299,55 +436,9 @@
             this.LogData_checkbox.Text = "Log Data to file";
             this.LogData_checkbox.UseVisualStyleBackColor = true;
             // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.Pause_checkBox);
-            this.groupBox2.Controls.Add(this.buttonStop);
-            this.groupBox2.Controls.Add(this.buttonStart);
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox2.Location = new System.Drawing.Point(353, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(80, 108);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Data Control";
-            // 
-            // Pause_checkBox
-            // 
-            this.Pause_checkBox.Appearance = System.Windows.Forms.Appearance.Button;
-            this.Pause_checkBox.Enabled = false;
-            this.Pause_checkBox.Location = new System.Drawing.Point(5, 40);
-            this.Pause_checkBox.Margin = new System.Windows.Forms.Padding(4);
-            this.Pause_checkBox.Name = "Pause_checkBox";
-            this.Pause_checkBox.Size = new System.Drawing.Size(70, 20);
-            this.Pause_checkBox.TabIndex = 21;
-            this.Pause_checkBox.Text = "Pause";
-            this.Pause_checkBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
-            this.Pause_checkBox.UseVisualStyleBackColor = true;
-            this.Pause_checkBox.CheckedChanged += new System.EventHandler(this.Pause_checkBox_CheckedChanged);
-            // 
-            // buttonStop
-            // 
-            this.buttonStop.Location = new System.Drawing.Point(5, 61);
-            this.buttonStop.Name = "buttonStop";
-            this.buttonStop.Size = new System.Drawing.Size(70, 20);
-            this.buttonStop.TabIndex = 0;
-            this.buttonStop.Text = "Stop";
-            this.buttonStop.UseVisualStyleBackColor = true;
-            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
-            // 
-            // buttonStart
-            // 
-            this.buttonStart.Location = new System.Drawing.Point(5, 19);
-            this.buttonStart.Name = "buttonStart";
-            this.buttonStart.Size = new System.Drawing.Size(70, 20);
-            this.buttonStart.TabIndex = 0;
-            this.buttonStart.Text = "Start";
-            this.buttonStart.UseVisualStyleBackColor = true;
-            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
-            // 
             // groupBox1
             // 
+            this.groupBox1.Controls.Add(this.CPU_STATUS);
             this.groupBox1.Controls.Add(this.CPUStatus_label);
             this.groupBox1.Controls.Add(this.CPUStatus_labelconst);
             this.groupBox1.Controls.Add(this.textBoxSlot);
@@ -361,7 +452,7 @@
             this.groupBox1.Dock = System.Windows.Forms.DockStyle.Left;
             this.groupBox1.Location = new System.Drawing.Point(3, 3);
             this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(350, 108);
+            this.groupBox1.Size = new System.Drawing.Size(250, 188);
             this.groupBox1.TabIndex = 0;
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection";
@@ -369,7 +460,7 @@
             // CPUStatus_label
             // 
             this.CPUStatus_label.AutoSize = true;
-            this.CPUStatus_label.Location = new System.Drawing.Point(73, 92);
+            this.CPUStatus_label.Location = new System.Drawing.Point(100, 169);
             this.CPUStatus_label.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CPUStatus_label.Name = "CPUStatus_label";
             this.CPUStatus_label.Size = new System.Drawing.Size(53, 13);
@@ -379,7 +470,7 @@
             // CPUStatus_labelconst
             // 
             this.CPUStatus_labelconst.AutoSize = true;
-            this.CPUStatus_labelconst.Location = new System.Drawing.Point(5, 92);
+            this.CPUStatus_labelconst.Location = new System.Drawing.Point(32, 169);
             this.CPUStatus_labelconst.Margin = new System.Windows.Forms.Padding(2, 0, 2, 0);
             this.CPUStatus_labelconst.Name = "CPUStatus_labelconst";
             this.CPUStatus_labelconst.Size = new System.Drawing.Size(65, 13);
@@ -388,7 +479,7 @@
             // 
             // textBoxSlot
             // 
-            this.textBoxSlot.Location = new System.Drawing.Point(149, 59);
+            this.textBoxSlot.Location = new System.Drawing.Point(73, 64);
             this.textBoxSlot.Name = "textBoxSlot";
             this.textBoxSlot.Size = new System.Drawing.Size(35, 20);
             this.textBoxSlot.TabIndex = 3;
@@ -397,7 +488,7 @@
             // 
             // textBoxRack
             // 
-            this.textBoxRack.Location = new System.Drawing.Point(149, 36);
+            this.textBoxRack.Location = new System.Drawing.Point(73, 41);
             this.textBoxRack.Name = "textBoxRack";
             this.textBoxRack.Size = new System.Drawing.Size(35, 20);
             this.textBoxRack.TabIndex = 2;
@@ -406,7 +497,7 @@
             // 
             // textBoxIP
             // 
-            this.textBoxIP.Location = new System.Drawing.Point(149, 13);
+            this.textBoxIP.Location = new System.Drawing.Point(73, 18);
             this.textBoxIP.Name = "textBoxIP";
             this.textBoxIP.Size = new System.Drawing.Size(95, 20);
             this.textBoxIP.TabIndex = 1;
@@ -417,7 +508,7 @@
             // 
             // label4
             // 
-            this.label4.Location = new System.Drawing.Point(87, 61);
+            this.label4.Location = new System.Drawing.Point(11, 66);
             this.label4.Name = "label4";
             this.label4.Size = new System.Drawing.Size(63, 13);
             this.label4.TabIndex = 1;
@@ -426,7 +517,7 @@
             // 
             // label3
             // 
-            this.label3.Location = new System.Drawing.Point(87, 40);
+            this.label3.Location = new System.Drawing.Point(11, 45);
             this.label3.Name = "label3";
             this.label3.Size = new System.Drawing.Size(63, 13);
             this.label3.TabIndex = 1;
@@ -435,7 +526,7 @@
             // 
             // label2
             // 
-            this.label2.Location = new System.Drawing.Point(87, 16);
+            this.label2.Location = new System.Drawing.Point(11, 21);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(63, 13);
             this.label2.TabIndex = 1;
@@ -445,7 +536,7 @@
             // buttonDisconnect
             // 
             this.buttonDisconnect.Enabled = false;
-            this.buttonDisconnect.Location = new System.Drawing.Point(6, 48);
+            this.buttonDisconnect.Location = new System.Drawing.Point(73, 119);
             this.buttonDisconnect.Name = "buttonDisconnect";
             this.buttonDisconnect.Size = new System.Drawing.Size(75, 23);
             this.buttonDisconnect.TabIndex = 0;
@@ -455,7 +546,7 @@
             // 
             // buttonConnect
             // 
-            this.buttonConnect.Location = new System.Drawing.Point(6, 19);
+            this.buttonConnect.Location = new System.Drawing.Point(73, 90);
             this.buttonConnect.Name = "buttonConnect";
             this.buttonConnect.Size = new System.Drawing.Size(75, 23);
             this.buttonConnect.TabIndex = 0;
@@ -472,7 +563,7 @@
             this.tabView.Location = new System.Drawing.Point(4, 22);
             this.tabView.Name = "tabView";
             this.tabView.Padding = new System.Windows.Forms.Padding(3);
-            this.tabView.Size = new System.Drawing.Size(812, 114);
+            this.tabView.Size = new System.Drawing.Size(1072, 194);
             this.tabView.TabIndex = 1;
             this.tabView.Text = "View";
             this.tabView.UseVisualStyleBackColor = true;
@@ -491,7 +582,7 @@
             this.groupBox11.Margin = new System.Windows.Forms.Padding(2);
             this.groupBox11.Name = "groupBox11";
             this.groupBox11.Padding = new System.Windows.Forms.Padding(2);
-            this.groupBox11.Size = new System.Drawing.Size(186, 108);
+            this.groupBox11.Size = new System.Drawing.Size(186, 188);
             this.groupBox11.TabIndex = 46;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "Date and Time";
@@ -596,7 +687,7 @@
             this.groupBox8.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox8.Name = "groupBox8";
             this.groupBox8.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox8.Size = new System.Drawing.Size(166, 108);
+            this.groupBox8.Size = new System.Drawing.Size(166, 188);
             this.groupBox8.TabIndex = 44;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "X Axis";
@@ -659,7 +750,7 @@
             this.groupBox9.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox9.Name = "groupBox9";
             this.groupBox9.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox9.Size = new System.Drawing.Size(217, 108);
+            this.groupBox9.Size = new System.Drawing.Size(217, 188);
             this.groupBox9.TabIndex = 45;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Y Axis";
@@ -760,7 +851,7 @@
             this.groupBox5.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox5.Name = "groupBox5";
             this.groupBox5.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox5.Size = new System.Drawing.Size(209, 108);
+            this.groupBox5.Size = new System.Drawing.Size(209, 188);
             this.groupBox5.TabIndex = 43;
             this.groupBox5.TabStop = false;
             this.groupBox5.Text = "General";
@@ -858,15 +949,63 @@
             // 
             // tabVariables
             // 
+            this.tabVariables.Controls.Add(this.groupBox2);
             this.tabVariables.Controls.Add(this.groupBox6);
             this.tabVariables.Controls.Add(this.groupBox7);
             this.tabVariables.Location = new System.Drawing.Point(4, 22);
             this.tabVariables.Name = "tabVariables";
             this.tabVariables.Padding = new System.Windows.Forms.Padding(3);
-            this.tabVariables.Size = new System.Drawing.Size(812, 114);
+            this.tabVariables.Size = new System.Drawing.Size(1072, 194);
             this.tabVariables.TabIndex = 2;
             this.tabVariables.Text = "Variables";
             this.tabVariables.UseVisualStyleBackColor = true;
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.Pause_checkBox);
+            this.groupBox2.Controls.Add(this.buttonStop);
+            this.groupBox2.Controls.Add(this.buttonStart);
+            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Left;
+            this.groupBox2.Location = new System.Drawing.Point(795, 3);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(80, 188);
+            this.groupBox2.TabIndex = 35;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Data Control";
+            // 
+            // Pause_checkBox
+            // 
+            this.Pause_checkBox.Appearance = System.Windows.Forms.Appearance.Button;
+            this.Pause_checkBox.Enabled = false;
+            this.Pause_checkBox.Location = new System.Drawing.Point(5, 40);
+            this.Pause_checkBox.Margin = new System.Windows.Forms.Padding(4);
+            this.Pause_checkBox.Name = "Pause_checkBox";
+            this.Pause_checkBox.Size = new System.Drawing.Size(70, 21);
+            this.Pause_checkBox.TabIndex = 12;
+            this.Pause_checkBox.Text = "Pause";
+            this.Pause_checkBox.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.Pause_checkBox.UseVisualStyleBackColor = true;
+            this.Pause_checkBox.CheckedChanged += new System.EventHandler(this.Pause_checkBox_CheckedChanged);
+            // 
+            // buttonStop
+            // 
+            this.buttonStop.Location = new System.Drawing.Point(5, 63);
+            this.buttonStop.Name = "buttonStop";
+            this.buttonStop.Size = new System.Drawing.Size(70, 21);
+            this.buttonStop.TabIndex = 13;
+            this.buttonStop.Text = "Stop";
+            this.buttonStop.UseVisualStyleBackColor = true;
+            this.buttonStop.Click += new System.EventHandler(this.buttonStop_Click);
+            // 
+            // buttonStart
+            // 
+            this.buttonStart.Location = new System.Drawing.Point(5, 17);
+            this.buttonStart.Name = "buttonStart";
+            this.buttonStart.Size = new System.Drawing.Size(70, 21);
+            this.buttonStart.TabIndex = 11;
+            this.buttonStart.Text = "Start";
+            this.buttonStart.UseVisualStyleBackColor = true;
+            this.buttonStart.Click += new System.EventHandler(this.buttonStart_Click);
             // 
             // groupBox6
             // 
@@ -880,7 +1019,7 @@
             this.groupBox6.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox6.Name = "groupBox6";
             this.groupBox6.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox6.Size = new System.Drawing.Size(239, 108);
+            this.groupBox6.Size = new System.Drawing.Size(239, 188);
             this.groupBox6.TabIndex = 33;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "List of Variables";
@@ -888,7 +1027,7 @@
             // LoadVars_button
             // 
             this.LoadVars_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.LoadVars_button.Location = new System.Drawing.Point(171, 59);
+            this.LoadVars_button.Location = new System.Drawing.Point(170, 63);
             this.LoadVars_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.LoadVars_button.Name = "LoadVars_button";
             this.LoadVars_button.Size = new System.Drawing.Size(60, 21);
@@ -900,7 +1039,7 @@
             // SaveVars_button
             // 
             this.SaveVars_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.SaveVars_button.Location = new System.Drawing.Point(171, 83);
+            this.SaveVars_button.Location = new System.Drawing.Point(170, 87);
             this.SaveVars_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.SaveVars_button.Name = "SaveVars_button";
             this.SaveVars_button.Size = new System.Drawing.Size(60, 21);
@@ -916,14 +1055,14 @@
             this.Variables_list.Location = new System.Drawing.Point(4, 18);
             this.Variables_list.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Variables_list.Name = "Variables_list";
-            this.Variables_list.Size = new System.Drawing.Size(158, 85);
+            this.Variables_list.Size = new System.Drawing.Size(158, 165);
             this.Variables_list.TabIndex = 19;
             this.Variables_list.SelectedIndexChanged += new System.EventHandler(this.Variables_list_SelectedIndexChanged);
             // 
             // AddToChart_button
             // 
             this.AddToChart_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.AddToChart_button.Location = new System.Drawing.Point(171, 13);
+            this.AddToChart_button.Location = new System.Drawing.Point(170, 17);
             this.AddToChart_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.AddToChart_button.Name = "AddToChart_button";
             this.AddToChart_button.Size = new System.Drawing.Size(60, 21);
@@ -935,7 +1074,7 @@
             // Remove_button
             // 
             this.Remove_button.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.Remove_button.Location = new System.Drawing.Point(171, 36);
+            this.Remove_button.Location = new System.Drawing.Point(170, 40);
             this.Remove_button.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.Remove_button.Name = "Remove_button";
             this.Remove_button.Size = new System.Drawing.Size(60, 21);
@@ -977,7 +1116,7 @@
             this.groupBox7.Margin = new System.Windows.Forms.Padding(4, 5, 4, 5);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Padding = new System.Windows.Forms.Padding(4, 5, 4, 5);
-            this.groupBox7.Size = new System.Drawing.Size(553, 108);
+            this.groupBox7.Size = new System.Drawing.Size(553, 188);
             this.groupBox7.TabIndex = 34;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Variable Settings";
@@ -1262,7 +1401,7 @@
             this.tabActual.Location = new System.Drawing.Point(4, 22);
             this.tabActual.Name = "tabActual";
             this.tabActual.Padding = new System.Windows.Forms.Padding(3);
-            this.tabActual.Size = new System.Drawing.Size(812, 114);
+            this.tabActual.Size = new System.Drawing.Size(1072, 194);
             this.tabActual.TabIndex = 3;
             this.tabActual.Text = "Current Values";
             this.tabActual.UseVisualStyleBackColor = true;
@@ -1302,7 +1441,7 @@
             this.Variables_dataGridView.RowTemplate.Height = 24;
             this.Variables_dataGridView.RowTemplate.Resizable = System.Windows.Forms.DataGridViewTriState.False;
             this.Variables_dataGridView.SelectionMode = System.Windows.Forms.DataGridViewSelectionMode.CellSelect;
-            this.Variables_dataGridView.Size = new System.Drawing.Size(806, 108);
+            this.Variables_dataGridView.Size = new System.Drawing.Size(1066, 188);
             this.Variables_dataGridView.TabIndex = 1;
             // 
             // Adres
@@ -1346,192 +1485,12 @@
             this.Color.Name = "Color";
             this.Color.ReadOnly = true;
             // 
-            // tabInfo
-            // 
-            this.tabInfo.Controls.Add(this.groupBox4);
-            this.tabInfo.Location = new System.Drawing.Point(4, 22);
-            this.tabInfo.Name = "tabInfo";
-            this.tabInfo.Padding = new System.Windows.Forms.Padding(3);
-            this.tabInfo.Size = new System.Drawing.Size(812, 114);
-            this.tabInfo.TabIndex = 5;
-            this.tabInfo.Text = "CPU Info";
-            this.tabInfo.UseVisualStyleBackColor = true;
-            // 
-            // groupBox4
-            // 
-            this.groupBox4.Controls.Add(this.label35);
-            this.groupBox4.Controls.Add(this.txtVersion);
-            this.groupBox4.Controls.Add(this.label39);
-            this.groupBox4.Controls.Add(this.txtOrderCode);
-            this.groupBox4.Controls.Add(this.lblStatus);
-            this.groupBox4.Controls.Add(this.buttonPLCStatus);
-            this.groupBox4.Controls.Add(this.buttonReadCPUInfo);
-            this.groupBox4.Controls.Add(this.txtModuleName);
-            this.groupBox4.Controls.Add(this.txtAsName);
-            this.groupBox4.Controls.Add(this.txtSerialNumber);
-            this.groupBox4.Controls.Add(this.txtModuleTypeName);
-            this.groupBox4.Controls.Add(this.label8);
-            this.groupBox4.Controls.Add(this.label7);
-            this.groupBox4.Controls.Add(this.label6);
-            this.groupBox4.Controls.Add(this.label5);
-            this.groupBox4.Dock = System.Windows.Forms.DockStyle.Left;
-            this.groupBox4.Location = new System.Drawing.Point(3, 3);
-            this.groupBox4.Name = "groupBox4";
-            this.groupBox4.Size = new System.Drawing.Size(801, 108);
-            this.groupBox4.TabIndex = 0;
-            this.groupBox4.TabStop = false;
-            this.groupBox4.Text = "Unit Info";
-            // 
-            // label35
-            // 
-            this.label35.AutoSize = true;
-            this.label35.Location = new System.Drawing.Point(695, 16);
-            this.label35.Name = "label35";
-            this.label35.Size = new System.Drawing.Size(42, 13);
-            this.label35.TabIndex = 42;
-            this.label35.Text = "Version";
-            // 
-            // txtVersion
-            // 
-            this.txtVersion.Enabled = false;
-            this.txtVersion.Location = new System.Drawing.Point(743, 13);
-            this.txtVersion.Name = "txtVersion";
-            this.txtVersion.ReadOnly = true;
-            this.txtVersion.Size = new System.Drawing.Size(48, 20);
-            this.txtVersion.TabIndex = 41;
-            // 
-            // label39
-            // 
-            this.label39.AutoSize = true;
-            this.label39.Location = new System.Drawing.Point(377, 16);
-            this.label39.Name = "label39";
-            this.label39.Size = new System.Drawing.Size(61, 13);
-            this.label39.TabIndex = 40;
-            this.label39.Text = "Order Code";
-            // 
-            // txtOrderCode
-            // 
-            this.txtOrderCode.Enabled = false;
-            this.txtOrderCode.Location = new System.Drawing.Point(499, 13);
-            this.txtOrderCode.Name = "txtOrderCode";
-            this.txtOrderCode.ReadOnly = true;
-            this.txtOrderCode.Size = new System.Drawing.Size(190, 20);
-            this.txtOrderCode.TabIndex = 39;
-            // 
-            // lblStatus
-            // 
-            this.lblStatus.AutoSize = true;
-            this.lblStatus.Font = new System.Drawing.Font("Tahoma", 14.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.lblStatus.ForeColor = System.Drawing.Color.Black;
-            this.lblStatus.Location = new System.Drawing.Point(695, 75);
-            this.lblStatus.Name = "lblStatus";
-            this.lblStatus.Size = new System.Drawing.Size(100, 23);
-            this.lblStatus.TabIndex = 38;
-            this.lblStatus.Text = "Unknown";
-            this.lblStatus.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
-            // 
-            // buttonPLCStatus
-            // 
-            this.buttonPLCStatus.Location = new System.Drawing.Point(532, 75);
-            this.buttonPLCStatus.Name = "buttonPLCStatus";
-            this.buttonPLCStatus.Size = new System.Drawing.Size(157, 23);
-            this.buttonPLCStatus.TabIndex = 37;
-            this.buttonPLCStatus.Text = "Get Unit Status";
-            this.buttonPLCStatus.UseVisualStyleBackColor = true;
-            this.buttonPLCStatus.Click += new System.EventHandler(this.buttonPLCStatus_Click);
-            // 
-            // buttonReadCPUInfo
-            // 
-            this.buttonReadCPUInfo.Location = new System.Drawing.Point(361, 79);
-            this.buttonReadCPUInfo.Name = "buttonReadCPUInfo";
-            this.buttonReadCPUInfo.Size = new System.Drawing.Size(75, 23);
-            this.buttonReadCPUInfo.TabIndex = 1;
-            this.buttonReadCPUInfo.Text = "Read";
-            this.buttonReadCPUInfo.UseVisualStyleBackColor = true;
-            this.buttonReadCPUInfo.Click += new System.EventHandler(this.buttonReadCPUInfo_Click);
-            // 
-            // txtModuleName
-            // 
-            this.txtModuleName.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtModuleName.Enabled = false;
-            this.txtModuleName.Location = new System.Drawing.Point(153, 82);
-            this.txtModuleName.Name = "txtModuleName";
-            this.txtModuleName.Size = new System.Drawing.Size(191, 20);
-            this.txtModuleName.TabIndex = 1;
-            this.txtModuleName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtAsName
-            // 
-            this.txtAsName.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtAsName.Enabled = false;
-            this.txtAsName.Location = new System.Drawing.Point(153, 59);
-            this.txtAsName.Name = "txtAsName";
-            this.txtAsName.Size = new System.Drawing.Size(191, 20);
-            this.txtAsName.TabIndex = 1;
-            this.txtAsName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtSerialNumber
-            // 
-            this.txtSerialNumber.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtSerialNumber.Enabled = false;
-            this.txtSerialNumber.Location = new System.Drawing.Point(153, 36);
-            this.txtSerialNumber.Name = "txtSerialNumber";
-            this.txtSerialNumber.Size = new System.Drawing.Size(191, 20);
-            this.txtSerialNumber.TabIndex = 1;
-            this.txtSerialNumber.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // txtModuleTypeName
-            // 
-            this.txtModuleTypeName.BackColor = System.Drawing.SystemColors.Menu;
-            this.txtModuleTypeName.Enabled = false;
-            this.txtModuleTypeName.Location = new System.Drawing.Point(153, 13);
-            this.txtModuleTypeName.Name = "txtModuleTypeName";
-            this.txtModuleTypeName.Size = new System.Drawing.Size(191, 20);
-            this.txtModuleTypeName.TabIndex = 1;
-            this.txtModuleTypeName.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
-            // 
-            // label8
-            // 
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(6, 85);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(71, 13);
-            this.label8.TabIndex = 0;
-            this.label8.Text = "Module name";
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(6, 62);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(50, 13);
-            this.label7.TabIndex = 0;
-            this.label7.Text = "AS name";
-            // 
-            // label6
-            // 
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(6, 39);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(71, 13);
-            this.label6.TabIndex = 0;
-            this.label6.Text = "Serial number";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(6, 16);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(100, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Module Type Name";
-            // 
             // tabHelp
             // 
             this.tabHelp.Location = new System.Drawing.Point(4, 22);
             this.tabHelp.Name = "tabHelp";
             this.tabHelp.Padding = new System.Windows.Forms.Padding(3);
-            this.tabHelp.Size = new System.Drawing.Size(812, 114);
+            this.tabHelp.Size = new System.Drawing.Size(1072, 194);
             this.tabHelp.TabIndex = 4;
             this.tabHelp.Text = "Help";
             this.tabHelp.UseVisualStyleBackColor = true;
@@ -1543,11 +1502,11 @@
             this.tabDown.Controls.Add(this.tabTable);
             this.tabDown.Controls.Add(this.tabDir);
             this.tabDown.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tabDown.Location = new System.Drawing.Point(3, 143);
+            this.tabDown.Location = new System.Drawing.Point(3, 223);
             this.tabDown.Multiline = true;
             this.tabDown.Name = "tabDown";
             this.tabDown.SelectedIndex = 0;
-            this.tabDown.Size = new System.Drawing.Size(814, 386);
+            this.tabDown.Size = new System.Drawing.Size(1074, 606);
             this.tabDown.TabIndex = 1;
             // 
             // ChartPage
@@ -1555,7 +1514,7 @@
             this.ChartPage.Controls.Add(this.chart1);
             this.ChartPage.Location = new System.Drawing.Point(23, 4);
             this.ChartPage.Name = "ChartPage";
-            this.ChartPage.Size = new System.Drawing.Size(787, 378);
+            this.ChartPage.Size = new System.Drawing.Size(1047, 598);
             this.ChartPage.TabIndex = 3;
             this.ChartPage.Text = "Chart view";
             this.ChartPage.UseVisualStyleBackColor = true;
@@ -1571,7 +1530,7 @@
             this.chart1.Legends.Add(legend1);
             this.chart1.Location = new System.Drawing.Point(0, 0);
             this.chart1.Name = "chart1";
-            this.chart1.Size = new System.Drawing.Size(787, 378);
+            this.chart1.Size = new System.Drawing.Size(1047, 598);
             this.chart1.TabIndex = 0;
             this.chart1.Text = "chart1";
             this.chart1.MouseEnter += new System.EventHandler(this.chart1_MouseEnter);
@@ -1615,7 +1574,7 @@
             this.tabTable.Location = new System.Drawing.Point(23, 4);
             this.tabTable.Name = "tabTable";
             this.tabTable.Padding = new System.Windows.Forms.Padding(3);
-            this.tabTable.Size = new System.Drawing.Size(787, 378);
+            this.tabTable.Size = new System.Drawing.Size(1047, 598);
             this.tabTable.TabIndex = 1;
             this.tabTable.Text = "Table view";
             this.tabTable.UseVisualStyleBackColor = true;
@@ -1633,7 +1592,7 @@
             this.dataGridView.ReadOnly = true;
             this.dataGridView.RowHeadersVisible = false;
             this.dataGridView.RowTemplate.Height = 24;
-            this.dataGridView.Size = new System.Drawing.Size(781, 372);
+            this.dataGridView.Size = new System.Drawing.Size(1041, 592);
             this.dataGridView.TabIndex = 1;
             // 
             // tabDir
@@ -1649,7 +1608,7 @@
             this.tabDir.Location = new System.Drawing.Point(23, 4);
             this.tabDir.Name = "tabDir";
             this.tabDir.Padding = new System.Windows.Forms.Padding(3);
-            this.tabDir.Size = new System.Drawing.Size(787, 378);
+            this.tabDir.Size = new System.Drawing.Size(1047, 598);
             this.tabDir.TabIndex = 2;
             this.tabDir.Text = "Directory";
             this.tabDir.UseVisualStyleBackColor = true;
@@ -1748,10 +1707,9 @@
             // 
             // textBoxError
             // 
-            this.textBoxError.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBoxError.Location = new System.Drawing.Point(3, 535);
+            this.textBoxError.Location = new System.Drawing.Point(3, 835);
             this.textBoxError.Name = "textBoxError";
-            this.textBoxError.Size = new System.Drawing.Size(814, 20);
+            this.textBoxError.Size = new System.Drawing.Size(1074, 20);
             this.textBoxError.TabIndex = 2;
             // 
             // notifyIcon
@@ -1769,25 +1727,34 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
+            // CPU_STATUS
+            // 
+            this.CPU_STATUS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CPU_STATUS.Location = new System.Drawing.Point(14, 167);
+            this.CPU_STATUS.Name = "CPU_STATUS";
+            this.CPU_STATUS.Size = new System.Drawing.Size(15, 15);
+            this.CPU_STATUS.TabIndex = 24;
+            // 
             // MainWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(820, 561);
+            this.ClientSize = new System.Drawing.Size(1080, 857);
             this.Controls.Add(this.tableLayoutPanel);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.Fixed3D;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "MainWindow";
-            this.Text = "S7 connection - PTPL, V.1.1.0";
+            this.Text = "S7 connection - PTPL, V.1.1.3";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.MainWindow_FormClosing);
             this.Load += new System.EventHandler(this.MainWindow_Load);
             this.tableLayoutPanel.ResumeLayout(false);
             this.tableLayoutPanel.PerformLayout();
             this.tabControl.ResumeLayout(false);
             this.tabMain.ResumeLayout(false);
+            this.groupBox4.ResumeLayout(false);
+            this.groupBox4.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.tabView.ResumeLayout(false);
@@ -1800,14 +1767,12 @@
             this.groupBox5.ResumeLayout(false);
             this.groupBox5.PerformLayout();
             this.tabVariables.ResumeLayout(false);
+            this.groupBox2.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.groupBox7.ResumeLayout(false);
             this.groupBox7.PerformLayout();
             this.tabActual.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.Variables_dataGridView)).EndInit();
-            this.tabInfo.ResumeLayout(false);
-            this.groupBox4.ResumeLayout(false);
-            this.groupBox4.PerformLayout();
             this.tabDown.ResumeLayout(false);
             this.ChartPage.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.chart1)).EndInit();
@@ -1830,7 +1795,6 @@
         private System.Windows.Forms.TabPage tabActual;
         private System.Windows.Forms.TabPage tabHelp;
         private System.Windows.Forms.GroupBox groupBox3;
-        private System.Windows.Forms.GroupBox groupBox2;
         private System.Windows.Forms.GroupBox groupBox1;
         private System.Windows.Forms.TabControl tabDown;
         private System.Windows.Forms.TabPage tabTable;
@@ -1839,25 +1803,10 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button buttonStop;
-        private System.Windows.Forms.Button buttonStart;
         private System.Windows.Forms.TextBox textBoxSlot;
         private System.Windows.Forms.TextBox textBoxRack;
         private System.Windows.Forms.TextBox textBoxIP;
         private System.Windows.Forms.TextBox textBoxError;
-        private System.Windows.Forms.TabPage tabInfo;
-        private System.Windows.Forms.Button buttonReadCPUInfo;
-        private System.Windows.Forms.GroupBox groupBox4;
-        private System.Windows.Forms.TextBox txtModuleName;
-        private System.Windows.Forms.TextBox txtAsName;
-        private System.Windows.Forms.TextBox txtSerialNumber;
-        private System.Windows.Forms.TextBox txtModuleTypeName;
-        private System.Windows.Forms.Label label8;
-        private System.Windows.Forms.Label label7;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.Label lblStatus;
-        private System.Windows.Forms.Button buttonPLCStatus;
         private System.Windows.Forms.TabPage tabDir;
         private System.Windows.Forms.Button buttonGetDB;
         internal System.Windows.Forms.TextBox txtDBGet;
@@ -1942,7 +1891,6 @@
         private System.Windows.Forms.DataGridViewTextBoxColumn Format;
         private System.Windows.Forms.DataGridViewTextBoxColumn StatusValue;
         private System.Windows.Forms.DataGridViewTextBoxColumn Color;
-        private System.Windows.Forms.CheckBox Pause_checkBox;
         private System.Windows.Forms.Label CPUStatus_label;
         private System.Windows.Forms.Label CPUStatus_labelconst;
         private System.Windows.Forms.TextBox LogData_textbox;
@@ -1956,11 +1904,26 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.TabPage ChartPage;
         private System.Windows.Forms.DataVisualization.Charting.Chart chart1;
+        private System.Windows.Forms.Button dbPicker_button;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.CheckBox Pause_checkBox;
+        private System.Windows.Forms.Button buttonStop;
+        private System.Windows.Forms.Button buttonStart;
+        private System.Windows.Forms.GroupBox groupBox4;
         private System.Windows.Forms.Label label35;
         internal System.Windows.Forms.TextBox txtVersion;
         private System.Windows.Forms.Label label39;
         internal System.Windows.Forms.TextBox txtOrderCode;
-        private System.Windows.Forms.Button dbPicker_button;
+        private System.Windows.Forms.Button buttonReadCPUInfo;
+        private System.Windows.Forms.TextBox txtModuleName;
+        private System.Windows.Forms.TextBox txtAsName;
+        private System.Windows.Forms.TextBox txtSerialNumber;
+        private System.Windows.Forms.TextBox txtModuleTypeName;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label CPU_STATUS;
     }
 }
 

@@ -142,5 +142,77 @@ namespace S7Connection.Properties {
                 this["Day"] = value;
             }
         }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Y_Major {
+            get {
+                return ((bool)(this["Y_Major"]));
+            }
+            set {
+                this["Y_Major"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool Y_Minor {
+            get {
+                return ((bool)(this["Y_Minor"]));
+            }
+            set {
+                this["Y_Minor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool X_Major {
+            get {
+                return ((bool)(this["X_Major"]));
+            }
+            set {
+                this["X_Major"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("False")]
+        public bool X_Minor {
+            get {
+                return ((bool)(this["X_Minor"]));
+            }
+            set {
+                this["X_Minor"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("100")]
+        public string Y_MaxScale {
+            get {
+                return ((string)(this["Y_MaxScale"]));
+            }
+            set {
+                this["Y_MaxScale"] = value;
+            }
+        }
+        
+        [global::System.Configuration.UserScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("-100")]
+        public string Y_MinScale {
+            get {
+                return ((string)(this["Y_MinScale"]));
+            }
+            set {
+                this["Y_MinScale"] = value;
+            }
+        }
     }
 }

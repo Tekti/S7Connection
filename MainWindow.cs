@@ -26,7 +26,6 @@ namespace S7Connection
         SymbolsPick SymbolsPick = new SymbolsPick();
         DBpicker DBpicker = new DBpicker();
 
-        StringBuilder sb = new StringBuilder();
         string DateTimeFormat;
 
         DataTable Values_table;
@@ -131,6 +130,14 @@ namespace S7Connection
             maxtime_textbox_Leave(this, e);
             Refresh_text_Leave(this, e);
 
+            double field_value_Max;
+            double field_value_Min;
+            double.TryParse(Properties.Settings.Default.Y_MaxScale, out field_value_Max);
+            double.TryParse(Properties.Settings.Default.Y_MinScale, out field_value_Min);
+
+            chart1.ChartAreas[0].AxisY.Maximum = field_value_Max;
+            chart1.ChartAreas[0].AxisY.Minimum = field_value_Min;
+
             foreach (S7Address var in Variable_array)
             {
                 ///////////////////////////////
@@ -168,10 +175,19 @@ namespace S7Connection
             if (LogData_checkbox.Checked)
             {
                 //Generate Column names (one time only)
-
-                IEnumerable<string> columnNames = Values_table.Columns.Cast<DataColumn>().
-                                  Select(column => column.ColumnName);
-                sb.AppendLine(string.Join(Convert.ToChar(9).ToString(), columnNames));
+                File.WriteAllText(LogData_textbox.Text, String.Empty);
+                StringBuilder sb = new StringBuilder();
+                IEnumerable<string> columnNames = Values_table.Columns.Cast<DataColumn>().Select(column => column.ColumnName);
+                sb.AppendLine(string.Join(";", columnNames));
+                try
+                {
+                    File.AppendAllText(LogData_textbox.Text, sb.ToString());
+                }
+                catch (Exception ex)
+                {
+                    MessageBox.Show(ex.Message, "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                    LogData_checkbox.Checked = false;
+                }
             }
 
             //Get the refresh rate for the timer
@@ -552,11 +568,6 @@ namespace S7Connection
             ReadOrderCode();
         }
 
-        private void buttonPLCStatus_Click(object sender, EventArgs e)
-        {
-            ShowPlcStatus();
-        }
-
         private void buttonBlockInfo_Click(object sender, EventArgs e)
         {
             GetBlockInfo();
@@ -615,6 +626,12 @@ namespace S7Connection
                 Year_checkbox.Checked = Properties.Settings.Default.Year;
                 Month_checkBox.Checked = Properties.Settings.Default.Month;
                 Day_checkbox.Checked = Properties.Settings.Default.Day;
+                Ygrid_checkbox.Checked = Properties.Settings.Default.Y_Major;
+                Y_MinorGrid_checkbox.Checked = Properties.Settings.Default.Y_Minor;
+                Xgrid_checkBox.Checked = Properties.Settings.Default.X_Major;
+                X_MinorGrid_checkbox.Checked = Properties.Settings.Default.X_Minor;
+                Maxscale_text.Text = Properties.Settings.Default.Y_MaxScale;
+                MinScale_text.Text = Properties.Settings.Default.Y_MinScale;
 
             }
             catch (Exception ex)
@@ -637,6 +654,12 @@ namespace S7Connection
                 Properties.Settings.Default.Year = Year_checkbox.Checked;
                 Properties.Settings.Default.Month = Month_checkBox.Checked;
                 Properties.Settings.Default.Day = Day_checkbox.Checked;
+                Properties.Settings.Default.Y_Major = Ygrid_checkbox.Checked;
+                Properties.Settings.Default.Y_Minor = Y_MinorGrid_checkbox.Checked;
+                Properties.Settings.Default.X_Major = Xgrid_checkBox.Checked;
+                Properties.Settings.Default.X_Minor = X_MinorGrid_checkbox.Checked;
+                Properties.Settings.Default.Y_MaxScale = Maxscale_text.Text;
+                Properties.Settings.Default.Y_MinScale = MinScale_text.Text;
                 Properties.Settings.Default.Save();
             }
             catch (Exception ex)
@@ -693,42 +716,6 @@ namespace S7Connection
                 txtSerialNumber.Text = Info.SerialNumber;
                 txtAsName.Text = Info.ASName;
                 txtModuleName.Text = Info.ModuleName;
-            }
-        }
-
-        void ShowPlcStatus()
-        {
-            int Status = 0;
-            int Result = Client.PlcGetStatus(ref Status);
-            ShowResult(Result);
-            if (Result == 0)
-            {
-                switch (Status)
-                {
-                    case S7Consts.S7CpuStatusRun:
-                        {
-                            lblStatus.Text = "RUN";
-                            lblStatus.ForeColor = System.Drawing.Color.LimeGreen;
-                            break;
-                        }
-                    case S7Consts.S7CpuStatusStop:
-                        {
-                            lblStatus.Text = "STOP";
-                            lblStatus.ForeColor = System.Drawing.Color.Red;
-                            break;
-                        }
-                    default:
-                        {
-                            lblStatus.Text = "Unknown";
-                            lblStatus.ForeColor = System.Drawing.Color.Black;
-                            break;
-                        }
-                }
-            }
-            else
-            {
-                lblStatus.Text = "Unknown";
-                lblStatus.ForeColor = System.Drawing.Color.Black;
             }
         }
 
@@ -1332,12 +1319,15 @@ namespace S7Connection
             {
                 case 0x08:
                     CPUStatus_label.Text = "RUN";
+                    CPU_STATUS.BackColor = System.Drawing.Color.Green;
                     break;
                 case 0x04:
                     CPUStatus_label.Text = "STOP";
+                    CPU_STATUS.BackColor = System.Drawing.Color.Red;
                     break;
                 default:
                     CPUStatus_label.Text = "Unknown";
+                    CPU_STATUS.BackColor = System.Drawing.Color.Transparent;
                     break;
             }
         }
@@ -1413,6 +1403,8 @@ namespace S7Connection
             if (double.TryParse(MinScale_text.Text, out field_value) && field_value < chart1.ChartAreas[0].AxisY.Maximum)
             {
                 chart1.ChartAreas[0].AxisY.Minimum = field_value;
+                Properties.Settings.Default.Y_MinScale = MinScale_text.Text;
+                Properties.Settings.Default.Save();
             }
             else chart1.ChartAreas[0].AxisY.Minimum = double.NaN;
 
@@ -1424,6 +1416,8 @@ namespace S7Connection
             if (double.TryParse(Maxscale_text.Text, out field_value) && field_value > chart1.ChartAreas[0].AxisY.Minimum)
             {
                 chart1.ChartAreas[0].AxisY.Maximum = field_value;
+                Properties.Settings.Default.Y_MaxScale = Maxscale_text.Text;
+                Properties.Settings.Default.Save();
             }
             else chart1.ChartAreas[0].AxisY.Maximum = double.NaN;
         }
