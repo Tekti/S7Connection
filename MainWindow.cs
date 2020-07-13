@@ -11,11 +11,30 @@ using System.Text.RegularExpressions;
 using System.IO;
 using System.Xml.Serialization;
 using System.Windows.Forms.DataVisualization.Charting;
+using System.Data.OleDb;
+using System.Collections;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.CompilerServices;
+
+using System.Runtime.InteropServices;
+
 
 namespace S7Connection
 {
     public partial class MainWindow : Form
     {
+        [DllImport("kernel32.dll", EntryPoint = "GetOEMCP")]
+        public static extern int GetOEMCP();
+
+        private Collection Containers;
+        private string DirStep7;
+        private string DirExcel;
+        private string DirAwl;
+        private int CodePage;
+        public Encoding enc;
+        public Encoding enc2;
+
+
         //Declare variables 
         private S7Client Client;
         private byte[] BufferAB = new byte[65536];
@@ -47,6 +66,11 @@ namespace S7Connection
         }
         public MainWindow()
         {
+            this.Containers = new Collection();
+            this.CodePage = (int)(GetOEMCP() % 0x1000L);
+            this.enc = Encoding.GetEncoding(this.CodePage);
+            this.enc2 = Encoding.GetEncoding(this.CodePage);
+
             InitializeComponent();
             this.chart1.MouseWheel += new MouseEventHandler(chart1_MouseWheel);
             Client = new S7Client();
@@ -54,6 +78,7 @@ namespace S7Connection
                 this.Text = this.Text + " - Running 32 bit Code";
             else
                 this.Text = this.Text + " - Running 64 bit Code";
+            
         }
         private void buttonConnect_Click(object sender, EventArgs e)
         {
@@ -1465,6 +1490,450 @@ namespace S7Connection
                 chart1.ChartAreas[0].AxisY.MajorTickMark.Interval = field_value;
                 chart1.ChartAreas[0].AxisY.MinorTickMark.Interval = field_value / 5;
                 chart1.ChartAreas[0].AxisY.LabelStyle.Interval = field_value;
+            }
+        }
+
+        private void btnOpenS7Project_Click(object sender, EventArgs e)
+        {
+            int left = 0;
+            int num1 = 0;
+            int num2 = 0;
+            int codepage = 0;
+            OleDbConnection connection = new OleDbConnection();
+            OleDbCommand command = new OleDbCommand();
+            OleDbConnection connection2 = new OleDbConnection();
+            OleDbCommand command2 = new OleDbCommand();
+
+            OpenFileDialog ofd = new OpenFileDialog();
+
+            ofd.FileName = "";
+            ofd.Filter = "S7 projects (*.s7p)|*.s7p";
+            ofd.InitialDirectory = Directory.GetCurrentDirectory();
+            if (ofd.ShowDialog() == DialogResult.OK)
+            {
+                string fileName = ofd.FileName;
+                string directoryName = Path.GetDirectoryName(fileName);
+
+                if (fileName != "")
+                {
+                    if (File.Exists(directoryName + @"\Global\Language.old") | File.Exists(directoryName + @"\Global\Language"))
+                    {
+                        try
+                        {
+                            FileStream stream = !File.Exists(directoryName + @"\Global\Language") ? new FileStream(directoryName + @"\Global\Language.old", FileMode.Open, FileAccess.Read, FileShare.ReadWrite) : new FileStream(directoryName + @"\Global\Language", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                            StreamReader reader3 = new StreamReader(stream);
+                            int num4 = 0;
+                            while (true)
+                            {
+                                if (reader3.Peek() <= 0)
+                                {
+                                    this.enc2 = (codepage <= 0) ? Encoding.GetEncoding(this.CodePage) : Encoding.GetEncoding(codepage);
+                                    reader3.Close();
+                                    stream.Close();
+                                    break;
+                                }
+                                string str4 = reader3.ReadLine();
+                                if (num4 == 3)
+                                {
+                                    codepage = Convert.ToInt16(str4);
+                                }
+                                num4++;
+                            }
+                        }
+                        catch (Exception exception1)
+                        {
+                            Exception ex = exception1;
+                            Exception exception = ex;
+                        }
+                    }
+                    connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + directoryName + @"\ombstx\offline\;Extended Properties=dBASE IV;";
+                    connection.Open();
+                    command.Connection = connection;
+                    command.CommandText = "SELECT ID, NAME, ANZDB FROM BSTCNTOF.DBF ORDER BY ID";
+                    OleDbDataReader reader = command.ExecuteReader();
+
+                    if (connection.State != ConnectionState.Open)
+                    {
+                        MessageBox.Show("Can not connect to Data base", "Ha Ha Ha !!!", MessageBoxButtons.OK, MessageBoxIcon.Hand);
+                    }
+                    else
+                    {
+                        while (true)
+                        {
+                            if (!reader.Read())
+                            {
+                                break;
+                            }
+                            if (Operators.ConditionalCompareObjectGreater(reader["ANZDB"], 0, false))
+                            {
+                                clsBlockCont item = new clsBlockCont(Conversions.ToString(reader["NAME"]), Conversions.ToInteger(reader["ID"]), directoryName);
+                                this.Containers.Add(item, null, null, null);
+                                left = Conversions.ToInteger(Operators.AddObject(left, reader["ANZDB"]));
+                            }
+                        }
+                    }
+                    connection.Close();
+
+                    IEnumerator enumerator2;
+                    try
+                    {
+                        clsBlockCont current;
+                        OleDbDataReader reader4;
+                        enumerator2 = this.Containers.GetEnumerator();
+                        goto TR_0051;
+                    TR_000D:
+                        connection.Close();
+                        goto TR_0051;
+                    TR_0028:
+                        while (true)
+                        {
+                            if (!reader4.Read())
+                            {
+                                break;
+                            }
+                            string str8 = Conversions.ToString(reader4["BLKNUMBER"]);
+                            object expression = reader4["USERNAME"];
+                            bool flag26 = !Information.IsDBNull(expression);
+                            if (!flag26 || !Operators.ConditionalCompareObjectEqual(expression, "ES_MAP", false))
+                            {
+                                try
+                                {
+                                    object obj3;
+                                    clsDb db;
+                                    OleDbCommand command4 = new OleDbCommand
+                                    {
+                                        Connection = connection,
+                                        CommandText = "SELECT OBJECTID, SUBBLKTYP, BLKNUMBER, MC5LEN, USERNAME, BLOCKFNAME, BLOCKNAME, VERSION  FROM SUBBLK.DBF WHERE SUBBLKTYP = '00010' AND BLKNUMBER = '" + str8 + "' "
+                                    };
+                                    OleDbDataReader dr = command4.ExecuteReader();
+                                    dr.Read();
+                                    if (!Information.IsDBNull(reader4["MC5CODE"]))
+                                    {
+                                        try
+                                        {
+                                            obj3 = reader4["MC5CODE"];
+                                            goto TR_001C;
+                                        }
+                                        catch (Exception exception11)
+                                        {
+                                            Exception ex = exception11;
+                                            ProjectData.SetProjectError(ex);
+                                            Exception exception5 = ex;
+                                            ProjectData.ClearProjectError();
+                                        }
+                                    }
+                                    continue;
+                                TR_0010:
+                                    dr.Close();
+                                    dr = null;
+                                    command4.Dispose();
+                                    continue;
+                                TR_0011:
+                                    current.Dbs.Add(db, null, null, null);
+                                    num2++;
+                                    this.tstStatus.Text = "DB " + Conversions.ToString(db.Number);
+                                    this.tpbProgress.Value = num2;
+                                    base.Update();
+                                    goto TR_0010;
+                                TR_001C:
+                                    object[] objArray1 = new object[] { "\r\n" };
+                                    string[] strArray = (string[])NewLateBinding.LateGet(obj3, null, "Split", objArray1, null, null, null);
+                                    if ((strArray.GetUpperBound(0) <= 1) || LikeOperator.LikeString(strArray[1], "*VAR*", Microsoft.VisualBasic.CompareMethod.Binary))
+                                    {
+                                        goto TR_0010;
+                                    }
+                                    else
+                                    {
+                                        OleDbDataReader reader7 = new OleDbCommand
+                                        {
+                                            Connection = connection,
+                                            CommandText = "SELECT OBJECTID, SSBPART, BLKNUMBER  FROM SUBBLK.DBF WHERE SUBBLKTYP = '00020' AND BLKNUMBER = '" + str8 + "' "
+                                        }.ExecuteReader();
+                                        reader7.Read();
+                                        db = new clsDb(dr, reader7[1], current.Directory);
+                                        if (current.SymbolDirectory != "")
+                                        {
+                                            try
+                                            {
+                                                connection2.Open();
+                                                command2.Connection = connection2;
+                                                command2.CommandText = "SELECT [_SKZ], [_COMMENT] FROM SYMLIST.DBF WHERE ([_OPCODE] = 5) AND ([_OPBYTEO] = " + Conversions.ToString(db.Number) + ")";
+                                                OleDbDataReader reader2 = command2.ExecuteReader();
+                                                if (connection2.State == ConnectionState.Open)
+                                                {
+                                                    reader2.Read();
+                                                    string s = reader2[0].ToString();
+                                                    string str10 = reader2[1].ToString();
+                                                    byte[] bytes = this.enc.GetBytes(s);
+                                                    s = this.enc2.GetString(bytes);
+                                                    byte[] buffer4 = this.enc.GetBytes(str10);
+                                                    str10 = this.enc2.GetString(buffer4);
+                                                    if (!Information.IsDBNull(s))
+                                                    {
+                                                        db.Symbol = s;
+                                                        db.SymbolComment = str10;
+                                                    }
+                                                }
+                                                connection2.Close();
+                                            }
+                                            catch (Exception exception12)
+                                            {
+                                                Exception ex = exception12;
+                                                ProjectData.SetProjectError(ex);
+                                                Exception exception6 = ex;
+                                                connection2.Close();
+                                                ProjectData.ClearProjectError();
+                                            }
+                                        }
+                                    }
+                                    goto TR_0011;
+                                }
+                                catch (Exception exception13)
+                                {
+                                    Exception ex = exception13;
+                                    ProjectData.SetProjectError(ex);
+                                    Exception exception7 = ex;
+                                    ProjectData.ClearProjectError();
+                                }
+                            }
+                        }
+                        goto TR_000D;
+                    TR_0029:
+                        this.lbxBlockCont.Items.Add(current);
+                        connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + current.Directory + ";Extended Properties=dBASE IV;";
+                        connection.Open();
+                        reader4 = new OleDbCommand
+                        {
+                            Connection = connection,
+                            CommandText = "SELECT MC5CODE, BLKNUMBER, USERNAME FROM SUBBLK.DBF WHERE SUBBLKTYP = '00006'  ORDER BY BLKNUMBER"
+                        }.ExecuteReader();
+                        if (connection.State != ConnectionState.Open)
+                        {
+                            goto TR_000D;
+                        }
+                        goto TR_0028;
+                    TR_003B:
+                        if (current.ContId > 0)
+                        {
+                            try
+                            {
+                                connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + current.ProjectDirectory + @"\YDBs\;Extended Properties=dBASE IV;";
+                                connection.Open();
+                                command.Connection = connection;
+                                command.CommandText = "SELECT SOI  FROM YLNKLIST.DBF WHERE TOI = " + Conversions.ToString(current.ContId);
+                                reader = command.ExecuteReader();
+                                if (connection.State == ConnectionState.Open)
+                                {
+                                    reader.Read();
+                                    int num6 = 0;
+                                    string str5 = Conversions.ToString(reader["SOI"]);
+                                    if (Versioned.IsNumeric(reader["SOI"]))
+                                    {
+                                        num6 = Conversions.ToInteger(reader["SOI"]);
+                                        current.SymbolDirectory = current.ProjectDirectory + @"\YDBs\" + Conversions.ToString(num6) + @"\";
+                                    }
+                                }
+                                connection.Close();
+                                File.Copy(current.SymbolDirectory + @"\SYMLIST.DBF", Application.StartupPath + @"\SYMLIST.DBF", true);
+                                FileStream output = new FileStream(Application.StartupPath + @"\SYMLIST.DBF", FileMode.Open);
+                                BinaryWriter writer = new BinaryWriter(output);
+                                writer.Seek(15, SeekOrigin.Begin);
+                                writer.Write((byte)0);
+                                output.Close();
+                                connection2.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + Application.StartupPath + ";Extended Properties=dBASE IV;";
+                                if (current.ProgramName != "")
+                                {
+                                    connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + current.ProjectDirectory + @"\hrs\;Extended Properties=dBASE IV;";
+                                    connection.Open();
+                                    command.Connection = connection;
+                                    command.CommandText = "SELECT RSRVD2_L, RSRVD10_C  FROM S7RESONL.DBF WHERE [NAME] = '" + current.ProgramName + "'";
+                                    reader = command.ExecuteReader();
+                                    if (connection.State == ConnectionState.Open)
+                                    {
+                                        reader.Read();
+                                        int num7 = 0;
+                                        string expression = Conversions.ToString(reader[0]);
+                                        if (Versioned.IsNumeric(expression))
+                                        {
+                                            num7 = Conversions.ToInteger(expression);
+                                            current.Rack = (int)Math.Round(Conversion.Int((double)(((double)num7) / 0x20)));
+                                            current.Slot = num7 % 0x20;
+                                        }
+                                        string s = Conversions.ToString(reader[1]);
+                                        byte[] bytes = this.enc.GetBytes(s);
+                                        string[] textArray1 = new string[] { Conversions.ToString(bytes[0]), ".", Conversions.ToString(bytes[1]), ".", Conversions.ToString(bytes[2]), ".", Conversions.ToString(bytes[3]) };
+                                        current.IPAddress = string.Concat(textArray1);
+                                    }
+                                    connection.Close();
+                                }
+                            }
+                            catch (Exception exception10)
+                            {
+                                Exception ex = exception10;
+                                ProjectData.SetProjectError(ex);
+                                Exception exception4 = ex;
+                                connection.Close();
+                                ProjectData.ClearProjectError();
+                            }
+                        }
+                        goto TR_0029;
+                    TR_0042:
+                        if (current.ContId > 0)
+                        {
+                            try
+                            {
+                                connection.ConnectionString = "Provider=Microsoft.Jet.OLEDB.4.0;Data Source=" + current.ProjectDirectory + @"\hrs\;Extended Properties=dBASE IV;";
+                                connection.Open();
+                                command.Connection = connection;
+                                command.CommandText = "SELECT [ID], [NAME]  FROM S7RESOFF.DBF WHERE ID = " + Conversions.ToString(current.ContId);
+                                reader = command.ExecuteReader();
+                                if (connection.State == ConnectionState.Open)
+                                {
+                                    reader.Read();
+                                    current.ProgramName = Conversions.ToString(reader["NAME"]);
+                                }
+                                connection.Close();
+                            }
+                            catch (Exception exception9)
+                            {
+                                Exception ex = exception9;
+                                ProjectData.SetProjectError(ex);
+                                Exception exception3 = ex;
+                                connection.Close();
+                                ProjectData.ClearProjectError();
+                            }
+                        }
+                        goto TR_003B;
+                    TR_0051:
+                        while (true)
+                        {
+                            if (enumerator2.MoveNext())
+                            {
+                                current = (clsBlockCont)enumerator2.Current;
+                                if (File.Exists(current.Directory + "links.lnk"))
+                                {
+                                    try
+                                    {
+                                        FileStream input = new FileStream(current.Directory + "links.lnk", FileMode.Open, FileAccess.Read, FileShare.ReadWrite);
+                                        BinaryReader reader5 = new BinaryReader(input);
+                                        input.Seek(0x210L, SeekOrigin.Begin);
+                                        bool flag14 = true;
+                                        byte[] buffer = new byte[8];
+                                        while (true)
+                                        {
+                                            if (!(flag14 & (input.Length > (input.Position + 8L))))
+                                            {
+                                                input.Close();
+                                                break;
+                                            }
+                                            buffer = reader5.ReadBytes(8);
+                                            if (((buffer[0] == 1) & (buffer[1] == 0x41)) & (buffer[2] == 20))
+                                            {
+                                                current.ContId = (buffer[3] * 0x100) + buffer[4];
+                                                flag14 = false;
+                                            }
+                                        }
+                                    }
+                                    catch (Exception exception8)
+                                    {
+                                        Exception ex = exception8;
+                                        ProjectData.SetProjectError(ex);
+                                        Exception exception2 = ex;
+                                        ProjectData.ClearProjectError();
+                                    }
+                                }
+                            }
+                            else
+                            {
+                                File.Delete(Application.StartupPath + @"\SYMLIST.DBF");
+                                this.tstStatus.Text = Conversions.ToString(num2) + " Data blocks found";
+                                if (this.lbxBlockCont.Items.Count > 0)
+                                {
+                                    this.lbxBlockCont.SelectedIndex = 0;
+                                }
+                                if (this.lbxDbs.Items.Count > 0)
+                                {
+                                    this.lbxDbs.SelectedIndex = 0;
+                                }
+                                this.tpbProgress.Value = 0;
+                                this.Cursor = Cursors.Arrow;
+                                return;
+                            }
+                            break;
+                        }
+                        goto TR_0042;
+                    }
+                    finally
+                    {
+                        enumerator2 = this.Containers.GetEnumerator();
+                        if (enumerator2 is IDisposable)
+                        {
+                            (enumerator2 as IDisposable).Dispose();
+                        }
+                    }
+                }
+            }
+        }
+
+        private void lbxBlockCont_MouseMove(object sender, MouseEventArgs e)
+        {
+            object[] arguments = new object[] { new Point(e.X, e.Y) };
+            int num = Conversions.ToInteger(NewLateBinding.LateGet(sender, null, "IndexFromPoint", arguments, null, null, null));
+            tstStatus.Text = num.ToString();
+
+            if ((num != -1))
+            {
+                object[] objArray;
+                bool[] flagArray;
+                object[] objArray2 = new object[] { num };
+                bool[] flagArray1 = new bool[] { true };
+                object instance = NewLateBinding.LateGet(NewLateBinding.LateGet(sender, null, "Items", new object[0], null, null, null), null, "Item", objArray = objArray2, null, null, flagArray = flagArray1);
+                if (flagArray[0])
+                {
+                    num = (int)Conversions.ChangeType(objArray[0], typeof(int));
+                }
+                string caption = Conversions.ToString(NewLateBinding.LateGet(instance, null, "GetToolTip", new object[0], null, null, null));
+                this.toolTip1.SetToolTip((Control)sender, caption);
+            }
+        }
+
+        private void lbxBlockCont_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (this.lbxBlockCont.SelectedItem == null)
+            {
+                return;
+            }
+            else
+            {
+                clsBlockCont selectedItem = (clsBlockCont)this.lbxBlockCont.SelectedItem;
+                if (true)
+                {
+                    IEnumerator enumerator;
+                    this.lbxDbs.Items.Clear();
+                    //this.lbxSelDbs.Items.Clear();
+                    //this.tvwDbTags.Nodes.Clear();
+                    try
+                    {
+                        enumerator = selectedItem.Dbs.GetEnumerator();
+                        while (true)
+                        {
+                            if (!enumerator.MoveNext())
+                            {
+                                break;
+                            }
+                            clsDb current = (clsDb)enumerator.Current;
+                            this.lbxDbs.Items.Add(current);
+                        }
+                    }
+                    finally
+                    {
+                        enumerator = selectedItem.Dbs.GetEnumerator();
+                        if (enumerator is IDisposable)
+                        {
+                            (enumerator as IDisposable).Dispose();
+                        }
+                    }
+                }
             }
         }
     }

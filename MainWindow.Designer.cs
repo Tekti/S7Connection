@@ -56,6 +56,7 @@
             this.LogData_label = new System.Windows.Forms.Label();
             this.LogData_checkbox = new System.Windows.Forms.CheckBox();
             this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.CPU_STATUS = new System.Windows.Forms.Label();
             this.CPUStatus_label = new System.Windows.Forms.Label();
             this.CPUStatus_labelconst = new System.Windows.Forms.Label();
             this.textBoxSlot = new System.Windows.Forms.TextBox();
@@ -66,6 +67,7 @@
             this.label2 = new System.Windows.Forms.Label();
             this.buttonDisconnect = new System.Windows.Forms.Button();
             this.buttonConnect = new System.Windows.Forms.Button();
+            this.btnOpenS7Project = new System.Windows.Forms.Button();
             this.tabView = new System.Windows.Forms.TabPage();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.Miliseconds_checkBox = new System.Windows.Forms.CheckBox();
@@ -169,7 +171,13 @@
             this.CommunicationTimer = new System.Windows.Forms.Timer(this.components);
             this.InterfaceRefreshtimer = new System.Windows.Forms.Timer(this.components);
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
-            this.CPU_STATUS = new System.Windows.Forms.Label();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.tstStatus = new System.Windows.Forms.Label();
+            this.tpbProgress = new System.Windows.Forms.ProgressBar();
+            this.lbxBlockCont = new System.Windows.Forms.ListBox();
+            this.lbxDbs = new System.Windows.Forms.ListBox();
+            this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
             this.tableLayoutPanel.SuspendLayout();
             this.tabControl.SuspendLayout();
             this.tabMain.SuspendLayout();
@@ -194,6 +202,7 @@
             this.tabTable.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
             this.tabDir.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tableLayoutPanel
@@ -233,6 +242,7 @@
             this.tabMain.Controls.Add(this.groupBox4);
             this.tabMain.Controls.Add(this.groupBox3);
             this.tabMain.Controls.Add(this.groupBox1);
+            this.tabMain.Controls.Add(this.btnOpenS7Project);
             this.tabMain.Location = new System.Drawing.Point(4, 22);
             this.tabMain.Name = "tabMain";
             this.tabMain.Padding = new System.Windows.Forms.Padding(3);
@@ -457,6 +467,14 @@
             this.groupBox1.TabStop = false;
             this.groupBox1.Text = "Connection";
             // 
+            // CPU_STATUS
+            // 
+            this.CPU_STATUS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.CPU_STATUS.Location = new System.Drawing.Point(14, 167);
+            this.CPU_STATUS.Name = "CPU_STATUS";
+            this.CPU_STATUS.Size = new System.Drawing.Size(15, 15);
+            this.CPU_STATUS.TabIndex = 24;
+            // 
             // CPUStatus_label
             // 
             this.CPUStatus_label.AutoSize = true;
@@ -553,6 +571,16 @@
             this.buttonConnect.Text = "Connect";
             this.buttonConnect.UseVisualStyleBackColor = true;
             this.buttonConnect.Click += new System.EventHandler(this.buttonConnect_Click);
+            // 
+            // btnOpenS7Project
+            // 
+            this.btnOpenS7Project.Location = new System.Drawing.Point(831, 9);
+            this.btnOpenS7Project.Name = "btnOpenS7Project";
+            this.btnOpenS7Project.Size = new System.Drawing.Size(75, 23);
+            this.btnOpenS7Project.TabIndex = 1;
+            this.btnOpenS7Project.Text = "Open";
+            this.btnOpenS7Project.UseVisualStyleBackColor = true;
+            this.btnOpenS7Project.Click += new System.EventHandler(this.btnOpenS7Project_Click);
             // 
             // tabView
             // 
@@ -1501,6 +1529,7 @@
             this.tabDown.Controls.Add(this.ChartPage);
             this.tabDown.Controls.Add(this.tabTable);
             this.tabDown.Controls.Add(this.tabDir);
+            this.tabDown.Controls.Add(this.tabPage1);
             this.tabDown.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tabDown.Location = new System.Drawing.Point(3, 223);
             this.tabDown.Multiline = true;
@@ -1727,13 +1756,57 @@
             this.InterfaceRefreshtimer.Interval = 1500;
             this.InterfaceRefreshtimer.Tick += new System.EventHandler(this.InterfaceRefreshtimer_Tick);
             // 
-            // CPU_STATUS
+            // openFileDialog1
             // 
-            this.CPU_STATUS.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.CPU_STATUS.Location = new System.Drawing.Point(14, 167);
-            this.CPU_STATUS.Name = "CPU_STATUS";
-            this.CPU_STATUS.Size = new System.Drawing.Size(15, 15);
-            this.CPU_STATUS.TabIndex = 24;
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // tabPage1
+            // 
+            this.tabPage1.Controls.Add(this.lbxDbs);
+            this.tabPage1.Controls.Add(this.lbxBlockCont);
+            this.tabPage1.Controls.Add(this.tpbProgress);
+            this.tabPage1.Controls.Add(this.tstStatus);
+            this.tabPage1.Location = new System.Drawing.Point(23, 4);
+            this.tabPage1.Name = "tabPage1";
+            this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage1.Size = new System.Drawing.Size(1047, 598);
+            this.tabPage1.TabIndex = 4;
+            this.tabPage1.Text = "tabPage1";
+            this.tabPage1.UseVisualStyleBackColor = true;
+            // 
+            // tstStatus
+            // 
+            this.tstStatus.AutoSize = true;
+            this.tstStatus.Location = new System.Drawing.Point(3, 582);
+            this.tstStatus.Name = "tstStatus";
+            this.tstStatus.Size = new System.Drawing.Size(41, 13);
+            this.tstStatus.TabIndex = 0;
+            this.tstStatus.Text = "label13";
+            // 
+            // tpbProgress
+            // 
+            this.tpbProgress.Location = new System.Drawing.Point(744, 572);
+            this.tpbProgress.Name = "tpbProgress";
+            this.tpbProgress.Size = new System.Drawing.Size(297, 23);
+            this.tpbProgress.TabIndex = 1;
+            // 
+            // lbxBlockCont
+            // 
+            this.lbxBlockCont.FormattingEnabled = true;
+            this.lbxBlockCont.Location = new System.Drawing.Point(16, 20);
+            this.lbxBlockCont.Name = "lbxBlockCont";
+            this.lbxBlockCont.Size = new System.Drawing.Size(203, 316);
+            this.lbxBlockCont.TabIndex = 2;
+            this.lbxBlockCont.SelectedIndexChanged += new System.EventHandler(this.lbxBlockCont_SelectedIndexChanged);
+            this.lbxBlockCont.MouseMove += new System.Windows.Forms.MouseEventHandler(this.lbxBlockCont_MouseMove);
+            // 
+            // lbxDbs
+            // 
+            this.lbxDbs.FormattingEnabled = true;
+            this.lbxDbs.Location = new System.Drawing.Point(231, 20);
+            this.lbxDbs.Name = "lbxDbs";
+            this.lbxDbs.Size = new System.Drawing.Size(203, 316);
+            this.lbxDbs.TabIndex = 2;
             // 
             // MainWindow
             // 
@@ -1781,6 +1854,8 @@
             ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).EndInit();
             this.tabDir.ResumeLayout(false);
             this.tabDir.PerformLayout();
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1924,6 +1999,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.Label CPU_STATUS;
+        private System.Windows.Forms.Button btnOpenS7Project;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.TabPage tabPage1;
+        private System.Windows.Forms.Label tstStatus;
+        private System.Windows.Forms.ProgressBar tpbProgress;
+        private System.Windows.Forms.ListBox lbxBlockCont;
+        private System.Windows.Forms.ListBox lbxDbs;
+        private System.Windows.Forms.ToolTip toolTip1;
     }
 }
 
